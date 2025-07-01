@@ -1,0 +1,138 @@
+<div class="container-fluid mb-5">
+    <!-- id="cuerpo" -->
+    <div class="row text-center my-2">
+        <div class="col-md-11 mx-auto">
+            <h1>MANTENIMIENTOS PREVENTIVOS <i class="fa fa-ticket" aria-hidden="true"></i></h1>
+            <div> <a class="btn btn-primary" href="/mantenimientopreventivo/add">Abrir Nuevo Preventivo</a></div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-11 col-xl-11 mx-auto">
+            <div class="table-responsive">
+                {{#if preventivos}}
+                <div class="container-fluid my-3">
+                    <div class="row align-items-end g-2">
+                        <!-- Botón para mostrar solo resueltos -->
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold text-light invisible">Filtro</label>
+                            <!-- invisible para alinear -->
+                            <button id="toggleResueltos" class="btn btn-outline-light btn-sm w-100">
+                                <i class="fa fa-check-circle me-1"></i>Mostrar solo cerrados
+                            </button>
+                        </div>
+
+                        <!-- Selector de usuario -->
+                        <div class="col-md-3">
+                            <label for="filtroCreador" class="form-label fw-semibold text-light">Filtrar por
+                                usuario:</label>
+                            <select id="filtroCreador" class="form-select form-select-sm">
+                                <option value="">Todos los usuarios</option>
+                                {{#each usuarios}}
+                                <option value="{{this.usuario}}">{{this.usuario}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <!-- Campo de búsqueda -->
+                        <div class="col-md-4">
+                            <label for="myInput" class="form-label fw-semibold text-light">Buscar:</label>
+                            <input class="form-control form-control-sm" id="myInput" type="text"
+                                placeholder="Filtrar por..." autofocus>
+                        </div>
+                    </div>
+                </div>
+
+                <table data-search="true" id="listado" class="table table-sm table-dark rounded table-hover listado"
+                    style="white-space: nowrap; overflow-x: auto;">
+                    <tr class="info-color-dark">
+                        <th>NIF</th>
+                        <th>Fecha</th>
+                        <th class="d-none d-md-table-cell">Creado por</th>
+                        {{!-- <th class="d-none d-md-table-cell">Fecha inicio</th> --}}
+                        <th class="d-none d-md-table-cell">Status</th>
+                        <th>Accion</th>
+                    </tr>
+
+                    {{#each preventivos}}
+                    <tr class="fila {{#if this.solved_at}}resuelto{{else}}pendiente{{/if}}"
+                        data-creador="{{this.created_by}}">
+                        <td> <a href="/aton/plantilla/{{ this.nif }} ">{{ this.nif }}</a> </td>
+                        <td>{{formatearSp this.fecha}}</td>
+                        <td class="d-none d-md-table-cell">{{ this.created_by }} </td>
+                        {{!-- <td class="d-none d-md-table-cell">{{ timeagoSpCerrado this.created_at }} </td> --}}
+
+                        {{#if this.solved_at}}
+                        <td class="d-none d-md-table-cell">cerrado {{ timeagoSpCerrado this.solved_at }} por
+                            {{this.solved_by}} </td>
+                        {{else}}
+                        <td class="d-none d-md-table-cell">activo {{timeagoSp this.created_at }} </td>
+                        {{/if}}
+
+                        <td>
+                            {{#if this.solved_at}}
+                            <a href="/mantenimientopreventivo/cerrado/{{this.preventivo_id}}" class="text-primary"><i
+                                    class="fa fa-eye"></i>View</a>
+                            {{else}}
+                            <a href="/mantenimientopreventivo/edit/{{this.preventivo_id}}" class="text-primary"><i
+                                    class="fa fa-pencil"></i>Edit</a>
+                            <a type="submit" onclick='abreModalPrev({{this.preventivo_id}},{{ this.nif }})'
+                                class=" text-primary"> <i class="fa fa-trash"></i>del</a>
+                            {{/if}}
+
+                        </td>
+                    </tr>
+                    {{/each}}
+                    {{else}}
+                    <p>No hay mantenimientos preventivos </p>
+                    {{/if}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let mostrarSoloResueltos = false;
+
+    const btnToggle = document.getElementById("toggleResueltos");
+    const selectCreador = document.getElementById("filtroCreador");
+
+    // Función única para aplicar ambos filtros a la vez
+    function aplicarFiltros() {
+        const creadorSeleccionado = selectCreador.value;
+        const filas = document.querySelectorAll(".fila");
+
+        filas.forEach(fila => {
+            const esResuelto = fila.classList.contains("resuelto");
+            const esPendiente = fila.classList.contains("pendiente");
+            const creador = fila.getAttribute("data-creador");
+
+            // Evaluar condiciones combinadas
+            const cumpleFiltroResuelto = !mostrarSoloResueltos || esPendiente;
+            const cumpleFiltroCreador = !creadorSeleccionado || creador === creadorSeleccionado;
+
+            // Mostrar solo si cumple ambos filtros
+            if (cumpleFiltroResuelto && cumpleFiltroCreador) {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
+            }
+        });
+
+        // Actualizar texto del botón
+        btnToggle.innerHTML = mostrarSoloResueltos
+            ? '<i class="fa fa-eye"></i> todos'
+            : '<i class="fa fa-eye"></i> por cerrar';
+    }
+
+    // Evento del botón de toggle
+    btnToggle.addEventListener("click", function () {
+        mostrarSoloResueltos = !mostrarSoloResueltos;
+        aplicarFiltros();
+    });
+
+    // Evento del select de creador
+    selectCreador.addEventListener("change", aplicarFiltros);
+</script>
+
+
+
+{{>ModalBorradoPreventivo}}

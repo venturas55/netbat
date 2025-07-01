@@ -1,0 +1,40 @@
+<div class="container-fluid mb-5">
+    <!-- id="cuerpo" -->
+    <div class="row text-center my-2">
+        <div class="col-md-11 mx-auto">
+            <h1>LISTADO SEÑALES PINTADAS <i class="fa fa-paint" aria-hidden="true"></i></h1>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-11 col-xl-11 mx-auto">
+     
+            <div class="my-2">
+                <input class="form-control" id="myInput" type="text" placeholder="Filtrar por..." autofocus>
+            </div>
+            <div class="table-responsive">
+                {{#if item}}
+                <table data-search="true" id="listado" class="table table-sm table-dark rounded table-hover listado"
+                    style="white-space: nowrap; overflow-x: auto;">
+                    <tr class="info-color-dark">
+                        <th>NIF</th>
+                        <th>fecha</th>
+                        <th>Pintado</th>
+                    </tr>
+
+                    {{#each item}}
+                    <tr class="fila">
+                        <td> <a href="/aton/plantilla/{{ this.nif }} ">{{ this.nif }}</a> </td>
+                        <td>{{ formatearSp this.fecha }} </td>
+                        <td>{{ this.mantenimiento }} </td>
+
+
+                    </tr>
+                    {{/each}}
+                    {{else}}
+                    <p>No hay listado </p>
+                    {{/if}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

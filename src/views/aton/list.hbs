@@ -1,0 +1,156 @@
+<div class="container-fluid p-4 mb-3">
+
+
+  {{#if balizas}}
+<div class="my-3">
+  <div class="row g-3">
+    
+    <!-- Filtro de texto -->
+    <div class="col-sm-10 col-md-4">
+      <label for="myInput" class="form-label">Filtrar por texto</label>
+      <input class="form-control" id="myInput" type="text" placeholder="Filtrar por..." autofocus>
+    </div>
+
+    <!-- Filtro de mostrar/ocultar balizas apagadas -->
+    <div class="col-sm-5 col-md-3">
+      <label class="form-label invisible">Filtro</label>
+      <div class="d-grid">
+        <button id="toggleApagadas" class="btn btn-outline-light btn-sm">
+          <i class="fa fa-eye"></i> Ocultar balizas apagadas
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtro adicional de Puerto -->
+    <div class="col-sm-5 col-md-3">
+      <label for="filtroPuerto" class="form-label">Filtrar por Puerto</label>
+      <select id="filtroPuerto" class="form-select">
+        <option value="">-- Todos los puertos --</option>
+        <option value="valencia">Valencia</option>
+        <option value="sagunto">Sagunto</option>
+        <option value="gandia">Gandía</option>
+      </select>
+    </div>
+    
+  </div>
+</div>
+  <p>TOTAL: <span id="suma"></span> / {{suma balizas}} </p>
+  <div class="table-responsive pb-4">
+    <table id="listado" class="listado mx-auto w-100 table table-hover table-dark" data-search="true">
+      <tr>
+        <th class="m-0 p-0">
+          {{#if numTickets}}
+          <span class="badge badge-secondary m-0 p-0" data-toggle="tooltip" data-placement="top"
+            title="Numero de tickets activos">
+            <span class="badge badge-light m-0 p-0">{{numTickets}}</span>
+            <i class="fa fa-exclamation-triangle m-0 p-0" aria-hidden="true"></i>
+          </span>
+          {{/if}}
+          {{#if numPintado}}
+          <span class="badge badge-secondary m-0 p-0" data-toggle="tooltip" data-placement="top"
+            title="Numero de señales que requiere pintado">
+            <span class="badge badge-light m-0 p-0">{{numPintado}}</span>
+            <i class="fa fa-paint-brush m-0 p-0" aria-hidden="true"></i>
+          </span>
+          {{/if}}
+          {{#if numPreventivos}}
+          <span class="badge badge-secondary m-0 p-0" data-toggle="tooltip" data-placement="top"
+            title="Numero de preventivos en curso">
+            <span class="badge badge-light m-0 p-0">{{numPreventivos}}</span>
+            <i class="fa fa-file m-0 p-0" aria-hidden="true"></i>
+          </span>
+          {{/if}}
+        </th>
+        <th>NIF</th>
+        <th class="d-none d-sm-table-cell">Puerto</th>
+        <th>Tipo</th>
+        <th class="d-none d-sm-table-cell">Apariencia</th>
+        <th class="d-none d-xl-table-cell">Linterna</th>
+      </tr>
+      {{#each balizas}}
+      <tr class="fila pinchable {{#if apagada}}baliza-apagada table-danger{{/if}}"
+        onclick="location.href='/aton/plantilla/{{nif}}';">
+        <td class="text-center" style="min-width: 40px;">
+          {{#if necesita_pintado}}<i class="fa fa-paint-brush blink_me" aria-hidden="true" data-toggle="tooltip"
+            data-placement="top" title="Necesita ser pintado"></i>{{/if}}
+          {{#if hasTicket}}<i class="fa fa-exclamation-triangle blink_me" aria-hidden="true" data-toggle="tooltip"
+            data-placement="top" title="Ticket pendiente"></i> {{/if}}
+          {{#if hasPreventivo}}<i class="fa fa-file blink_me" aria-hidden="true" data-toggle="tooltip"
+            data-placement="top" title="Tiene preventivo en curso"></i> {{/if}}
+        </td>
+        <td style="width: 80px;" class="  text-truncate">{{nif}}</td>
+        <td class="d-none d-sm-table-cell  text-truncate" style="max-width: 150px;">{{puerto}}</td>
+        <td class="text-truncate"> {{tipo}} </td>
+        <td class="d-none d-sm-table-cell  text-truncate" style="max-width: 100px;">{{apariencia}}</td>
+        <td class="d-none d-xl-table-cell  text-truncate" style="max-width: 200px;"> {{linterna}} </td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+  {{else}}
+  <div class="col-md-4-mx-auto">
+    <div class="card card-body text-center">
+      <tr>No hay balizas guardadas <a href="/aton/add"> Crea una!</a></tr>
+    </div>
+  </div>
+  {{/if}}
+
+</div>
+
+<script>
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    const inputBusqueda = document.getElementById("myInput");
+    const filtroPuerto = document.getElementById("filtroPuerto");
+    const btnToggle = document.getElementById('toggleApagadas');
+    const suma = document.getElementById("suma");
+    let ocultarApagadas = false;
+
+    // Función para filtrar balizas por texto y puerto
+    function filtrarBalizas() {
+      const texto = inputBusqueda.value.toLowerCase(); // Lo que escribe el usuario
+      const puertoSeleccionado = filtroPuerto.value.toLowerCase(); // Puerto seleccionado en el desplegable
+      const filas = document.querySelectorAll(".listado .fila");
+      let visibles = 0;
+
+      filas.forEach(fila => {
+        const esApagada = fila.classList.contains("baliza-apagada");
+        const puerto = fila.querySelector("td:nth-child(3)").textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""); // Puerto en la columna correspondiente
+        const coincideBusqueda = fila.textContent.toLowerCase().includes(texto);
+        const coincidePuerto = puerto.includes(puertoSeleccionado); // Coincidencia con el puerto seleccionado
+
+        const mostrar = coincideBusqueda && coincidePuerto && (!ocultarApagadas || !esApagada);
+        fila.style.display = mostrar ? "" : "none";
+
+        if (mostrar) visibles++;
+      });
+
+      if (suma) suma.textContent = visibles;
+    }
+
+    // Escuchar evento de escritura en el campo de búsqueda
+    if (inputBusqueda) {
+      inputBusqueda.addEventListener("keyup", filtrarBalizas);
+    }
+
+    // Escuchar evento de cambio en el filtro de puerto
+    if (filtroPuerto) {
+      filtroPuerto.addEventListener("change", filtrarBalizas);
+    }
+
+    // Escuchar clic en el botón de mostrar/ocultar apagadas
+    if (btnToggle) {
+      btnToggle.addEventListener('click', function () {
+        ocultarApagadas = !ocultarApagadas;
+        btnToggle.innerHTML = ocultarApagadas
+          ? '<i class="fa fa-eye"></i> Mostrar balizas apagadas'
+          : '<i class="fa fa-eye-slash"></i> Ocultar balizas apagadas';
+        filtrarBalizas();
+      });
+    }
+
+    // Ejecutar filtrado inicial cuando la página se cargue
+    filtrarBalizas();
+  });
+
+</script>

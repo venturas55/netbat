@@ -1,0 +1,400 @@
+<div class="container-fluid">
+  <div class="wrapper">
+    <input type="checkbox" id="submit1">
+    <div class="containertabs">
+      <input type="radio" id="tab1" name="tabs" checked>
+      <input type="radio" id="tab2" name="tabs">
+      <input type="radio" id="tab3" name="tabs">
+      <input type="radio" id="tab4" name="tabs">
+      <div class="tab">
+        <label class="t1" for="tab1">Alcances</label>
+        <label class="t2" for="tab2">Autonomia</label>
+        <label class="t3" for="tab3">Coordenadas</label>
+        <label class="t4" for="tab4">Giratorias</label>
+      </div>
+      <div class="content" id="contentOne">
+        <div id="alcances">
+          <h1> II. ALCANCES </h1>
+          <div class="d-flex flex-row align-items-center ">
+            <div>
+              <p> ALCANCE LUMINOSO MINIMO: <input type="number" placeholder="millas nauticas" step="0.1"
+                  v-model="alcance" class="w-25"> Millas Nauticas </p>
+              <p> ZONA DE ESTUDIO <select name="visibilidad" v-model="visibilidad">
+                  <option value="8.172">Mediterraneo-Baleares</option>
+                  <option value="6.246">Cantabrico-Galia</option>
+                  <option value="7.469">Huelva-Cadiz</option>
+                  <option value="6.839">Sevilla</option>
+                  <option value="5.76">Ceuta</option>
+                  <option value="11.699">Canarias</option>
+                  <option value="10">Nominal</option>
+                </select>
+                Visibilidad= <span>\{{visibilidad}}</span>  Transmisividad <span> \{{transmisividad | redondeo2}}</span>
+              </p>
+
+              <p> FUENTE AZUL: <select name="azul" v-model="azul">
+                  <option value="si">Si</option>
+                  <option value="no">No</option>
+                </select> </p>
+
+              <p> TIPO DE SEÑAL: <select name="tipo" v-model="tipo">
+                  <option value="Nocturna">Nocturna</option>
+                  <option value="Diurna">Diurna</option>
+                  <option value="Enfilacion">Enfilacion</option>
+                </select> a=<span id="a"> \{{a}} </span> </p>
+              <p> LUMINANCIA DE FONDO: <select name="fondo" v-model="fondo">
+                  <option value="Ninguna">Ninguna</option>
+                  <option value="Poca">Poca</option>
+                  <option value="Considerable">Considerable</option>
+                </select> Umbral= <span> \{{umbral}}</span> </p>
+              <p> DURACION DEL MENOR DESTELLO: <input type="number" v-model="destello" step="0.05" value="0.5"
+                  class="w-25">
+              </p>
+
+              <p> FACTOR DE SERVICIO: <input type="text" v-model="coef1" size="1"></p>
+              <p> FACTOR DE ACRISTALAMIENTO: <input type="text" v-model="coef2" size="1"></p>
+              <p> FACTOR DE LUMINANCIA DE FONDO: <input type="text" v-model="coef3" size="1"></p>
+            </div>
+            <div>
+              <p> INTENSIDAD DE CALCULO: <span class="resultado"> \{{Icalculo}} </span> Cd </p>
+              <p> INTENSIDAD DE EFICAZ:<span class="resultado">\{{Ieficaz}}</span> Cd</p>
+              <p> INTENSIDAD DE ESTACIONARIA:<span class="resultado"> \{{Iestacionaria}}</span> Cd</p>
+            </div>
+          </div>
+          <i> Calculos basados en la recomendacion E-200 series IALA</i>
+
+
+        </div>
+      </div>
+      <div class="content" id="contentTwo">
+        <div class="mx-2 " id="autonomia">
+          <h1> IV. AUTONOMIA FOTOVOLTAICA</h1>
+          <div class="d-flex flex-row">
+            <div class="col-3 d-flex flex-column ">
+              <p> ZONA DE ESTUDIO <select name="zona" v-model="zona">
+                  <option value="ACORUÑA">A Coruña</option>
+                  <option value="ALAVA">Alava</option>
+                  <option value="ALBACETE">albacete</option>
+                  <option value="ALICANTE">Alicante</option>
+                  <option value="ALMERIA">Almeria</option>
+                  <option value="ASTURIAS">Asturias</option>
+                  <option value="AVILA">Avila</option>
+                  <option value="BADAJOZ">Badajoz</option>
+                  <option value="BALERAS">Baleares</option>
+                  <option value="BARCELONA">Barcelona</option>
+                  <option value="BURGOS">Burgos</option>
+                  <option value="CACERES">Caceres</option>
+                  <option value="CADIZ">Cadiz</option>
+                  <option value="CANTABRIA">Cantabria</option>
+                  <option value="CASTELLON">Castellon</option>
+                  <option value="CEUTA">Ceuta</option>
+                  <option value="CIUDADREAL">Ciudad Real</option>
+                  <option value="CORDOBA">Cordoba</option>
+                  <option value="CUENCA">Cuenca</option>
+                  <option value="GERONA">Gerona</option>
+                  <option value="GRANADA">Granada</option>
+                  <option value="GUADALAJARA">Guadalajara</option>
+                  <option value="GUIPUZCOA">Guipuzcua</option>
+                  <option value="HUELVA">Huelva</option>
+                  <option value="HUESCA">Huesca</option>
+                  <option value="JAEN">Jaen</option>
+                  <option value="LEON">Leon</option>
+                  <option value="LERIDA">Lerida</option>
+                  <option value="LUGO">Lugo</option>
+                  <option value="MADRID">Madrid</option>
+                  <option value="MALAGA">Malaga</option>
+                  <option value="MELILLA">Melilla</option>
+                  <option value="MURCIA">Murcia</option>
+                  <option value="NAVARRA">Navarra</option>
+                  <option value="ORENSE">Orense</option>
+                  <option value="PALENCIA">Palencia</option>
+                  <option value="LASPALMAS">Las Palma</option>
+                  <option value="PONTEVEDRA">Pontevedra</option>
+                  <option value="RIOJA">La Rioja</option>
+                  <option value="SALAMANCA">Salamanca</option>
+                  <option value="TENERIFE">Tenerife</option>
+                  <option value="SEGOVIA">Segovia</option>
+                  <option value="SEVILLA">Sevilla</option>
+                  <option value="SORIA">soria</option>
+                  <option value="TARRAGONA">Tarragona</option>
+                  <option value="TERUEL">Teruel</option>
+                  <option value="TOLEDO">Toledo</option>
+                  <option value="VALENCIA">Valencia</option>
+                  <option value="VALLADOLID">Valladolid</option>
+                  <option value="VIZCAYA">vizcaya</option>
+                  <option value="ZAMORA">Zamora</option>
+                  <option value="ZARAGOZA">Zaragoza</option>
+                </select>
+              </p>
+              <p>Inclinacion <select name="inclinacion" v-model="inclinacion">
+                  <option value="0">0</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="25">25</option>
+                  <option value="30">30</option>
+                  <option value="35" selected>35</option>
+                  <option value="40">40</option>
+                  <option value="45">45</option>
+                  <option value="0">0</option>
+                  <option value="50">50</option>
+                  <option value="55">55</option>
+                  <option value="60">60</option>
+                  <option value="65">65</option>
+                  <option value="70">70</option>
+                  <option value="75">75</option>
+                  <option value="80">80</option>
+                  <option value="85">85</option>
+                  <option value="90">90</option>
+
+                </select>
+              </p>
+              <p>Latitud <select name="latitud" v-model="latitud">
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="34">34</option>
+                  <option value="35">35</option>
+                  <option value="36">36</option>
+                  <option value="37">37</option>
+                  <option value="38">38</option>
+                  <option value="39">39</option>
+                  <option value="40">40</option>
+                  <option value="41">41</option>
+                  <option value="42">42</option>
+                  <option value="43" selected>43</option>
+                  <option value="44">44</option>
+                  <option value="45">45</option>
+                </select>
+              <p> Edad (%): <input type="number" v-model="edad" class="w-25"></p>
+              <p> Voltaje (V): <input type="number" v-model="voltaje" class="w-25"></p>
+              <p> Voltaje Maximo paneles (V): <input type="number" v-model="umpp" class="w-25"></p>
+              <p> Wpeak Potencia (w): <input type="number" v-model="potencia" class="w-25"></p>
+              <p> Orientacion: <input type="number" v-model="orientacion" class="w-25"></p>
+              <p> Consumo (w): <input type="number" v-model="consumo" class="w-25"></p>
+              <p> Ciclo trabajo (%): <input type="number" v-model="ciclotrabajo" class="w-25"></p>
+              <p> Histeresis encendido (%): <input type="number" v-model="histeresis" class="w-25"></p>
+              <p> Consumo continuo: <input type="number" v-model="consumofijo" class="w-25"></p>
+              <p> Capacidad Bateria: <input type="number" v-model="capacidad" class="w-25"></p>
+              <p> Capacidad Max trabajo : <input type="number" v-model="capacidadmaxima" class="w-25"></p>
+              <p> Eficacia : <input type="number" v-model="eficacia" class="w-25" step="0.1"></p>
+              <p> Autonomia : <input type="number" v-model="dias" class="w-25"></p>
+            </div>
+
+            <div class="col-9">
+              <canvas id="myChart"></canvas>
+
+              {{!-- <p>RADIACION: <span> \{{coeficienteradiacion}} </span></p>
+              <p> LATITUDINCLINACION <span> \{{coeficientelatitudinclinacion}} </span></p> --}}
+              <p> VALORES RADIACION PUNTO kWh/m2<span> \{{valoresRadiacion}} </span></p>
+              <p> ENERGIA GANADA<span> \{{energiaGanada}} </span></p>
+              <p> ENERGIA CONSUMIDA<span> \{{energiaConsumida}} </span></p>
+              <p> BATERIA<span> \{{consumoAh}} </span></p>
+              <p> DIAS SIN SOL<span> \{{diasSinSol}} </span> </p>
+
+
+            </div>
+          </div>
+
+          <i> Calculos basados en la recomendaciones GEPAN</i>
+        </div>
+
+      </div>
+      <div class="content" id="contentThree">
+        <div class="text-center" id="coordenadas">
+          <h1> I. COORDENADAS</h1>
+
+          <div>
+            <h3>DECIMAL A WGS-84</h3>
+            <p>Coordenada en decimal <input type="text" v-model="decimal1" placeholder="GG.mmmmmmm"></p>
+            <p class="resultado">\{{resultado1}}</p>
+            <p>\{{error1}}</p>
+            <p v-if="bul==true">Errorcito bul</p>
+          </div>
+
+          <div>
+            <h3>WGS-84 A DECIMAL</h3>
+            <p>Coordenada en wgs-84 <input type="text" v-model="wgs2" placeholder="GGº MM.mmm'"></p>
+            <p class="resultado">\{{resultado2}}</p>
+            <p>\{{error2}}</p>
+          </div>
+
+          <div>
+            <h3>UTM A WGS-84</h3>
+            <p>Coordenada en UTM <input type="text" v-model="wgs3" placeholder="GG° MM' SS.sss&quot; N"></p>
+            <p class="resultado">\{{resultado3}}</p>
+            <p>\{{error3}}</p>
+          </div>
+          <i> Conversiones de coordenadas</i>
+        </div>
+      </div>
+      <div class="content" id="contentFour">
+        <div class="text-center" id="alcancesGiratoria">
+          <h1> III. ALCANCES GIRATORIAS</h1>
+          <div>
+
+            <p> ZONA DE ESTUDIO <select name="zona" v-model="zona">
+                <option value="coruna">A coruña</option>
+                <option value="alicante">Alicante</option>
+                <option value="almeria">Almeria</option>
+                <option value="barcelona">Barcelona</option>
+                <option value="cadiz">Cadiz</option>
+                <option value="ceuta">Ceuta</option>
+                <option value="fuerteventura">Fuerteventura</option>
+                <option value="huelva">Huelva</option>
+                <option value="ibiza">Ibiza</option>
+                <option value="palmas">Las Palma</option>
+                <option value="mahon">Mahón</option>
+                <option value="malaga">Malaga</option>
+                <option value="mallorca">Mallorca</option>
+                <option value="santander">Santander</option>
+                <option value="sebastian">San Sebastian</option>
+                <option value="tenerife">Tenerife</option>
+                <option value="valencia">Valencia</option>
+                <option value="vigo">Vigo</option>
+              </select>
+            </p>
+            <p> TIEMPO <select name="TA" v-model="TA">
+                <option value="TB">Brumoso</option>
+                <option value="TM">Medio</option>
+                <option value="TC">Bueno</option>
+                <option value="T90">90% de los días</option>
+                <option value="T70">70% de los días</option>
+              </select> <span>\{{getTA}}</span>
+
+            <p>Transmisividad Atmosferica <input type="number" v-model="Transmisividad" class="w-50"></p>
+            </p>
+            <p> ES TODO HORIZONTE <select name="horizonte" v-model="horizonte"> //K2prima
+                <option value="" selected>No</option>
+                <option value="1">Si</option>
+              </select>
+            </p>
+            <p> Caracteristica: <input type="text" v-model="caracteristica" size="55"></p>
+
+            <div class=" d-flex flex-row justify-content-center">
+              <div class="d-flex flex-column justify-content-center ">
+                <p v-if="horizonte"> b: <input type="number" v-model="b" class="w-50"></p>
+                <p v-if="horizonte"> L: <input type="number" v-model="L" class="w-50"></p>
+                <p v-if="horizonte"> h2: <input type="number" v-model="h2" class="w-50"></p>
+                <p v-if="horizonte"> h3: <input type="number" v-model="h3" class="w-50"></p>
+                <p v-if="horizonte"> h4: <input type="number" v-model="h4" class="w-50"></p>
+
+                <p v-if="!horizonte"> a2: <input type="number" v-model="a2" class="w-50"></p>
+                <p> &Theta;: <input type="number" v-model="tita" class="w-50"></p>
+                <p v-if="!horizonte"> a2_I: <input type="number" v-model="a2_I" class="w-50"></p>
+                <p v-if="!horizonte"> &Theta;I: <input type="number" v-model="titaI" class="w-50"></p>
+
+                <p v-if="horizonte"> &Theta;1: <input type="number" v-model="tita1" class="w-50"></p>
+                <p v-if="horizonte"> &Theta;2: <input type="number" v-model="tita2" class="w-50"></p>
+                <p v-if="horizonte"> &Theta;3: <input type="number" v-model="tita3" class="w-50"></p>
+                <p v-if="horizonte"> &Theta;4: <input type="number" v-model="tita4" class="w-50"></p>
+                <p v-if="horizonte"> K: <input type="number" v-model="K" class="w-50"></p>
+                <p v-if="horizonte"> K': <input type="number" v-model="Kprima" class="w-50"></p>
+                <p v-if="horizonte"> K": <select name="K2prima" v-model="K2prima">
+                    <option value="0.8" selected>Catadioptricos inferiores no retrasados</option>
+                    <option value="1">Catadioptricos inferiores retrasados</option>
+                  </select>
+                </p>
+                <p v-if="horizonte"> tau: <input type="number" v-model="Tau" class="w-50"></p>
+
+
+                <p v-if="!horizonte"> a3_I: <input type="number" v-model="a3_I" class="w-50"></p>
+                <p v-if="!horizonte"> c3_I: <input type="number" v-model="c3_I" class="w-50"></p>
+                <p v-if="!horizonte"> a3_II: <input type="number" v-model="a3_II" class="w-50"></p>
+                <p v-if="!horizonte"> c3_II: <input type="number" v-model="c3_II" class="w-50"></p>
+                <p v-if="!horizonte"> L: <input type="number" v-model="L" class="w-50"></p>
+              </div>
+              <div class="d-flex flex-column justify-content-center ">
+                <p v-if="!horizonte"> Pf (ad): <input type="number" v-model="Pf" class="w-50"></p>
+                <p v-if="!horizonte"> b (cm): <input type="number" v-model="b" class="w-50"></p>
+                <p v-if="!horizonte"> f (cm): <input type="number" v-model="f" class="w-50"></p>
+                <p v-if="!horizonte"> g (cm): <input type="number" v-model="g" class="w-50"></p>
+                <p v-if="!horizonte"> n (rpm): <input type="number" v-model="n" class="w-50"></p>
+                <p v-if="!horizonte"> T (seg): <input type="number" v-model="T" class="w-50"></p>
+                <p v-if="!horizonte"> h (cm): <input type="number" v-model="h" class="w-50"></p>
+              </div>
+              <div class="d-flex flex-column justify-content-center ">
+                <p> F3 (ad): <input type="number" v-model="F3" class="w-50"></p>
+                <p> F4 (ad): <input type="number" v-model="F4" class="w-50"></p>
+                <p> F5 (ad): <input type="number" v-model="F5" class="w-50"></p>
+                <p v-if="horizonte"> P (w): <input type="number" v-model="P" class="w-50"></p>
+                <p v-if="horizonte"> V (volt): <input type="number" v-model="V" class="w-50"></p>
+                <p v-if="horizonte"> Tipo Corriente (a/c): <input type="text" v-model="Tc" class="w-50"></p>
+                <p v-if="horizonte"> Rc (ohm): <input type="number" v-model="Rc" class="w-50"></p>
+                <p> H (m): <input type="number" v-model="H" class="w-50"></p>
+                <p v-if="horizonte"> f (cm): <input type="number" v-model="f" class="w-50"></p>
+                <p v-if="horizonte"> h (cm): <input type="number" v-model="h" class="w-50"></p>
+              </div>
+              <div class="d-flex flex-column justify-content-center " v-if="!horizonte">
+                <h4>VALORES INTERMEDIOS </h4>
+                {{!-- <p> c2 (ad): <input type="number" v-model="c2" class="w-50"></p> --}}
+                <p> c2 (ad): \{{c2}}</p>
+                <p> c2_I (ad): \{{c2_I}}</p>
+                <p> L1 (cd/cm2): \{{L1}} </p>
+                <p> Tau0: \{{tau0}}</p>
+                <p> F1 (ad): \{{F1}} </p>
+                <p> F2 (ad): \{{F2}} </p>
+                <p> X (ad): \{{X}} </p>
+                <p> Tau: \{{tau}}</p>
+                <p> Div vertical: \{{dv}}</p>
+              </div>
+              <div class="d-flex flex-column justify-content-center " v-if="horizonte">
+                <h4>VALORES INTERMEDIOS </h4>
+                <p> L2 (cd/cm2): \{{L2}}</p>
+                <p> L3 (cd/cm2): \{{L3}} </p>
+                <p> L4 (cd/cm2): \{{L4}} </p>
+                <p> K2 (ad): \{{K2}}</p>
+                <p> K3 (ad): \{{K3}}</p>
+                <p> K4 (ad): \{{K4}}</p>
+                <p> F1 (ad): \{{F1}} </p>
+                <p> A (amp): \{{A}} </p>
+                <p> R1 (ohm): \{{R1}} </p>
+                <p> R (ad): \{{R}} </p>
+                <p> F (ad): \{{F}} </p>
+
+                <p> &Delta;&tau;: \{{tau0}}</p>
+                <p> &Delta;&tau; corregido: \{{taucorregido}}</p>
+                <p> Div vertical: \{{dv}}</p>
+              </div>
+
+              <div class="d-flex flex-column justify-content-center ">
+                <p> INTENSIDAD DE ESTACIONARIA:</p>
+                <p> <span class="resultado"> \{{Iestacionaria}} </span>Cd</p>
+                <p> INTENSIDAD DE EFICAZ:</p>
+                <p> <span class="resultado"> \{{Ieficaz}} </span>Cd</p>
+                <p> INTENSIDAD DE CALCULO:</p>
+                <p> <span class="resultado"> \{{Icalculo}} </span>Cd</p>
+              </div>
+
+              <div class="d-flex flex-column justify-content-center ">
+                <p> Alcance Luminoso nominal calculado en TC:</p>
+                <p> <span class="resultado">
+                    \{{alcance_luminoso_nominal_calculado}} </span> mn</p>
+                <p> Alcance geográfico a una altura del ojo del observador (m):</p>
+                <p> <input type="number" v-model="altura_ojo" class="w-50"> <span class="resultado">
+                    \{{alcance_geografico}}</span> mn</p>
+              </div>
+            </div>
+          </div>
+          <i> Calculos basados en la recomendaciones MOPU</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-evenly my-3">
+    <div> <a href="https://www.iala-aism.org/" target="_blank"> <img src="/img/iala.png" class="rounded avatar-s"
+          alt="icono iala"> </a></div>
+    <div> <a class="dropdown-item" target="_blank" href="https://portalaton.puertos.es/"><img src="/img/oppe.jpeg"
+          class="rounded avatar-s" alt="icono apv"></a></div>
+    <div> <a class="dropdown-item" target="_blank" href="https://portalapv.valenciaport.com/"><img
+          src="/img/icon-menu-autoridad.svg" class="rounded avatar-s" alt="icono apv"></a></div>
+
+  </div>
+</div>
+   <script src="/js/vueAlcances.js"></script>
+     <script src="/js/vueCoordenadas.js"></script> 
+      <script src="/js/vueOpticastradicionales.js"></script> 
+       <script src="/js/vueAutonomia.js"></script> 
+<script>
+
+  </script>

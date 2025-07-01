@@ -1,0 +1,62 @@
+<h1 class="text-center">Cambios en las caracteristicas del AtoN con NIF: {{baliza.nif}}</h1>
+<div class="container p-4 mb-4">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/aton/editCaracteristicas/{{baliza.nif}}" method="POST">
+                        <div class="form-group mb-2">
+                            <label for="nif">NIF</label>
+                            <input value="{{baliza.nif}}" class="form-control" type="text" name="nif" placeholder="nif"
+                                autofocus />
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="num_internacional">NUM_INTERNACIONAL</label>
+                            <input value="{{baliza.num_internacional}}" class="form-control" type="text"
+                                name="num_internacional" placeholder="num_internacional" autofocus />
+                        </div>
+                        <div class="form-group mb-2"> <label for="tipo">TIPO</label><input value="{{baliza.tipo}}"
+                                class="form-control" type="text" name="tipo" placeholder="tipo" /> </div>
+                        <div class="form-group mb-2"> <label for="telecontrol">TELECONTROL</label><input
+                                value="{{baliza.telecontrol}}" class="form-control" type="text" name="telecontrol"
+                                placeholder="telecontrol" /> </div>
+                        <div class="form-group mb-2"><label for="apariencia">APARIENCIA</label><input
+                                value="{{baliza.apariencia}}" class="form-control" type="text" name="apariencia"
+                                placeholder="apariencia" /> </div>
+                        <div class="form-group mb-2"><label for="periodo">PERIODO</label><input
+                                value="{{baliza.periodo}}" class="form-control" type="number" name="periodo"
+                                placeholder="periodo" /> </div>
+                        <div class="form-group mb-2"><label for="caracteristica">CARACTERISTICA</label><input
+                                value="{{baliza.caracteristica}}" class="form-control" type="text" name="caracteristica"
+                                placeholder="caracteristica" /> </div>
+                        <div class="form-group">
+                            <label for="titulo">Es boya?</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="esBoya" id="esBoya1" value="1" {{#when baliza.esBoya 'eq' '1' }} checked {{/when}} />
+                                <label class="form-check-label" for="esBoya1">Si</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="esBoya" id="esBoya0" value="0"
+                                    {{#when baliza.esBoya 'eq' '0' }} checked {{/when}} />
+                                <label class="form-check-label" for="esBoya0">No</label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group mb-2 text-center">
+                            <button class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                    <form action="/aton/plantilla/{{baliza.nif}}" method="GET">
+                        <div class="form-group mb-2 text-center">
+                            <button class="btn btn-danger btn-block">Cancelar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

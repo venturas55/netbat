@@ -1,0 +1,31 @@
+<h1 class="text-center">Cambios en el mantenimiento del AtoN con NIF: {{mant.nif}}</h1>
+<div class="container p-4 mb-4">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/aton/mantenimiento/edit/{{mant.id_mantenimiento}}" method="POST">
+                        <div class="form-group mb-2">
+                            <div class="form-group mb-2"><label for="mantenimiento">MANTENIMIENTO A MODIFICAR</label>
+                            </div>
+                            <input value="{{mant.id_mantenimiento}}" type="hidden" name="id_mantenimiento" />
+                            <input value="{{mant.nif}}" type="hidden" name="nif" />
+                            <input type="date" value="{{formatearEn mant.fecha}}" class="form-control mb-2"
+                                name="fechaNueva" required />
+                            <input value="{{mant.mantenimiento}}" class="form-control" type="text"
+                                name="mantenimientoNuevo" placeholder="Mantenimiento a modificar" required />
+                        </div>
+                        <div class="form-group mb-2 text-center">
+                            <button class="btn btn-success btn-block">Guardar</button>
+                        </div>
+                    </form>
+                    <form action="/aton/plantilla/{{mant.nif}}" method="GET">
+                        <div class="form-group mb-2 text-center">
+                            <button class="btn btn-danger btn-block">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
