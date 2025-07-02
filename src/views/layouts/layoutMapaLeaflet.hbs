@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> --}}
+  {{>styles}}
+  <link rel="stylesheet" href="/css/mapa.css">
+  <title>BBDD SAN APP</title>
+  <script src="/leaflet/leaflet.js"></script>
+  <link rel="stylesheet" href="/leaflet/leaflet.css" />
+</head>
+
+<body>
+
+  {{>navbar}}
+  {{{body}}}
+  {{>footer}}
+  <script src="/js/jquery.slim.min.js" crossorigin="anonymous"></script>
+  {{>jQueryBootstrap}}
+{{!--   <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiYpGR9wGhPxqTX8FNKyJmYOec6UPYxCw&callback=initMap&v=weekly&libraries=marker"
+    defer></script> --}}
+  <script src="/js/funciones.js" type="text/javascript"></script>
+  <script src="/js/leafletmap.js" type="text/javascript"></script>
+</body>
+
+</html>

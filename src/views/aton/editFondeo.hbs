@@ -1,0 +1,69 @@
+<h1 class="text-center">Cambios en fondeo de la boya con NIF: {{baliza.nif}}</h1>
+<div class="container p-4 mb-4">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/aton/editFondeo/{{baliza.nif}}" method="POST">
+
+                        <div class="form-group mb-2"><label for="calado">CALADO FONDEO (m)</label><input
+                                value="{{baliza.calado}}" class="form-control" type="number" name="calado"
+                                placeholder="calado" step="0.01" autofocus /> </div>
+                        <div class="form-group mb-2"><label for="longitud_cadena">LONGITUD CADENA (m)</label><input
+                                value="{{baliza.longitud_cadena}}" class="form-control" type="number" name="longitud_cadena"
+                                placeholder="longitud_cadena" step="0.01"/> </div>
+                        <div class="form-group mb-2"><label for="ubicacion">UBICACION</label>
+
+
+
+                                    <select class="custom-select form-select form-select-sm" name="ubicacion"
+                                    id="ubicacion" aria-label=".form-select-sm example">
+                                    <option value="interior" {{#when this.baliza.ubicacion 'eq' 'interior' }} selected {{/when}}> Aguas interiores</option>
+                                    <option value="exterior" {{#when this.baliza.ubicacion 'eq' 'exterior' }} selected {{/when}}> Aguas exteriores</option>
+                                    <option value="intermedio" {{#when this.baliza.ubicacion 'eq' 'intermedio' }} selected {{/when}}> Aguas intermedias</option>
+                        
+                        
+                         </select>
+                        
+    
+                        <div class="form-group mb-2"><label for="latitud">DIMENSIONES MUERTO (cm)</label>
+                            <input Value="{{baliza.l_muerto}}" class="form-control" type="number" name="l_muerto"
+                                placeholder="largo" />
+                            <input Value="{{baliza.b_muerto}}" class="form-control" type="number" name="b_muerto"
+                                placeholder="ancho" />
+                            <input Value="{{baliza.h_muerto}}" class="form-control" type="number" name="h_muerto"
+                                placeholder="alto" />
+                        </div>
+                        <div class="form-group mb-2"><label for="diametro_cadena">DIAMETRO CADENA (mm)</label><input
+                                value="{{baliza.diametro_cadena}}" class="form-control" type="text"
+                                name="diametro_cadena" placeholder="diametro" /> </div>
+                        <div class="form-group mb-2"><label for="area_total_viva">AREA CASTILLETE VIENTO (m2)</label><input
+                                value="{{baliza.area_total_viva}}" class="form-control" type="number" step="0.01"
+                                name="area_total_viva" placeholder="area_total_viva" /> </div>
+                        <div class="form-group mb-2"><label for="Cw_aerodinamico">COEF AERODINAMICO VIENTO</label><input
+                                value="{{baliza.Cw_aerodinamico}}" class="form-control" type="number" step="0.001"
+                                name="Cw_aerodinamico" placeholder="Cw_aerodinamico" /> </div>
+                        <div class="form-group mb-2"><label for="area_total_muerta">AREA SUMERGIDA AGUA (m2)</label><input
+                                value="{{baliza.area_total_muerta}}" class="form-control" type="number" step="0.01"
+                                name="area_total_muerta" placeholder="area_total_muerta" /> </div>
+                        <div class="form-group mb-2"><label for="Cd_aerodinamico">COEF AERODINAMICO AGUA</label><input
+                                value="{{baliza.Cd_aerodinamico}}" class="form-control" type="number" step="0.001"
+                                name="Cd_aerodinamico" placeholder="Cd_aerodinamico" /> </div>
+
+                        <div class="form-group mb-2"><label for="Cd_aerodinamico">OBSERVACIONES</label><input value="{{baliza.observaciones}}" class="form-control"
+                                type="text" name="observaciones" placeholder="observaciones" /> </div>
+
+                        <div class="form-group mb-2 text-center">
+                            <button class="btn btn-success btn-block">Guardar</button>
+                        </div>
+                    </form>
+                    <form action="/aton/plantilla/{{baliza.nif}}" method="GET">
+                        <div class="form-group mb-2 text-center">
+                            <button class="btn btn-danger btn-block">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<!-- CUERPO -->
+<div class="container-fluid mb-5">
+    <!-- id="cuerpo" -->
+    <div class="row text-center ">
+        <div class="m-4"> <a class="btn btn-primary" href="/inventario/add">Añadir nuevo Item</a></div>
+        <h1 class="col-11 mx-auto">INVENTARIO <i class="fa fa-archive" aria-hidden="true"></i></h1>
+    </div>
+    <div class="row">
+
+        <div class="col-11 mx-auto">
+            <div class="my-2">
+                <input class="form-control" id="myInput" type="text" placeholder="Filtrar por.." autofocus>
+            </div>
+            <div class="table-responsive">
+                <table id="tablainventario" id="listado" class="table table-sm table-dark listado" data-search="true">
+                    <tr class="info-color-dark">
+                        <th>Tipo</th>
+                        <th>ITEM</th>
+                        <th class="d-none d-sm-table-cell">Descripcion</th>
+                        <th>Cantidad</th>
+                        <th class="d-none d-lg-table-cell">Fila</th>
+                        <th class="d-none d-lg-table-cell">Columna</th>
+                        <th>Accion</th>
+                    </tr>
+
+                    {{#each inventario}}
+                    <tr class="fila">
+                        <td>{{ this.tipo }} </td>
+                        <td>{{ this.item }} </td>
+                        <td class="d-none d-sm-table-cell">{{ this.descripcion }} </td>
+                        <td>{{ this.cantidad }}</td>
+                        <td class="d-none d-lg-table-cell">{{this.fila}} </td>
+                        <td class="d-none d-lg-table-cell">{{this.columna}}</td>
+                        <td> <a href="/inventario/edit/{{this.id}}" class="text-primary"><i
+                                    class="fa fa-pencil"></i>Edit</a>
+                            <a href="/inventario/delete/{{this.id}}" class="text-primary"><i
+                                    class="fa fa-trash"></i>Del</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<!-- CUERPO -->
+<div class="container-fluid">
+    <!-- id="cuerpo" -->
+    {{!-- <div class="text-center m-4"> <a class="btn btn-primary" href="/dbbackups/create">Crear dumpSQL</a></div> --}}
+    <div class="dropdown text-center m-4">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Crear BACKUP
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <form action="/dbbackups/create/balizamiento" method="POST">
+                    <div class="form-group mb-1 text-center">
+                        <button class="btn btn-secondary btn-block">Solo balizamiento</button>
+                    </div>
+                </form>
+            </li>
+            <li>
+                <form action="/dbbackups/create/mantenimiento" method="POST">
+                    <div class="form-group mb-1 text-center"> <button class="btn btn-secondary btn-block">Solo
+                            mantenimiento</button></div>
+                </form>
+            </li>
+            <li>
+                <form action="/dbbackups/create/completo" method="POST">
+                    <div class="form-group mb-1 text-center">
+                        <button class="btn btn-secondary btn-block">Completo</button>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <h1 class="text-center">LISTADO BACKUPS</h1>
+    <div class="row my-4">
+        <div class="col-11 mx-auto">
+            <table class="table table-bordered table-dark table-hover my-4">
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Creado</th>
+                    <th>acciones</th>
+                </tr>
+                {{#if backups}}
+                {{#each backups}}
+                <tr>
+                    <td> {{@key}}</td>
+                    <td>
+                        <a href="/dumpSQL/{{this.name}}" target="_blank"> {{this.name}} </a>
+                    </td>
+
+                    <td>{{ timeago this.created_at}}</td>
+                    <td> <a type="submit" href="/dbbackups/del/{{this.name}}" class="text-primary"><i
+                                class="fa fa-trash"></i>Del</a>
+                        <a type="submit" href="/dbbackups/runSQL/{{this.name}}" class="text-primary"><i
+                                class="fa fa-file-archive-o"></i>Load</a>
+                    </td>
+                </tr>
+                {{/each}}
+                {{else}}
+                <tr>No hay ningún backup generado, crea uno!! </tr>
+                {{/if}}
+            </table>
+            <div class="col-12 col-md-6  mx-auto">
+                <form action="/dbbackups/upload" method="POST" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="inputGroupFile01" name="backupsql">
+                        <button type="submit" class=" btn btn-primary btn-block">SUBIR BACKUP</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{{!--     <div class="row mx-1 mb-5">
+        <div class="col-sm-12">
+            <button onclick="document.getElementById('myModalBorradoAbsoluto').style.display = 'block';"
+                class="btn btn-outline-danger">ELIMINAR TODA BBDD</button>
+        </div>
+    </div>
+</div>
+{{>ModalBorradoAbsoluto}} --}}

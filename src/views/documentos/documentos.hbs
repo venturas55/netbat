@@ -1,0 +1,42 @@
+<!-- CUERPO -->
+<div class="container-fluid mb-5">
+    <!-- id="cuerpo" -->
+    <div class="row mt-2">
+        <div class="col-10 mx-auto text-center">
+            <a href="/documentoUpload" class="btn btn-primary">AÑADIR DOCUMENTO</a>
+            <h1 class="mx-auto ">LISTADO DOCUMENTOS</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <table class="table table-bordered table-dark table-hover">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th class="d-none d-xl-table-cell">Subido</th>
+                    <th>acciones</th>
+                </tr>
+                {{#if docus}}
+                {{#each docus}}
+                <tr>
+                    <td>
+                        <a href="/documentos/{{this.id_archivo}}" target="_blank"> {{this.nombre}}</a>
+                    </td>
+                    <td>
+                        <a> {{this.descripcion}}</a>
+                    </td>
+                    <td class="d-none d-xl-table-cell">{{timeago this.created_at}}</td>
+                    <td> <a href="/documentoEdit/{{this.id_archivo}}" class="text-primary"><i
+                                class="fa-solid fa-pen-to-square"></i>Edit</a> <a type="submit"
+                            href="/documentoDelete/{{this.id_archivo}}" class="text-primary"><i
+                                class="fa-solid fa-trash"></i>Del</a>
+                    </td>
+                </tr>
+                {{/each}}
+                {{else}}
+                <tr>No hay ningún documento subido, <a href="/documentoUpload">sube uno</a> !! </tr>
+                {{/if}}
+            </table>
+        </div>
+    </div>
+</div>
