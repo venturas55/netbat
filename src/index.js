@@ -96,6 +96,7 @@ import mapas from "./routes/mapas.js";
 import profile from "./routes/profile.js";
 import tickets from "./routes/tickets.js";
 import preventivos from "./routes/preventivos.js";
+import netbat from "./routes/netbat.js";
 app.use(rutas); // Esta busca automáticamente index.js en la carpeta routes
 app.use(authentication); // Si el archivo tiene exportación por defecto
 app.use(fotos);
@@ -106,6 +107,7 @@ app.use(inventario);
 app.use(backups);
 app.use(mapas);
 app.use(profile);
+app.use("/netbat",netbat);
 app.use("/tickets", tickets);
 app.use("/mantenimientopreventivo", preventivos);
 

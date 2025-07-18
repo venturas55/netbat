@@ -1,0 +1,35 @@
+<div class="container-fluid p-4 mb-3">
+
+  {{#if mensajes}}
+
+
+  <div class="table-responsive pb-4">
+    <table id="listado" class="listado mx-auto w-100 table table-hover table-dark">
+      <tr>
+        <th>#</th>
+        <th>remote station</th>
+        <th>Mensaje</th>
+        <th>Fecha</th>
+
+      </tr>
+      {{#each balizas}}
+      <tr class="fila pinchable {{#if apagada}}baliza-apagada table-danger{{/if}}"
+        onclick="location.href='/aton/plantilla/{{nif}}';">
+
+        <td style="width: 80px;" class="  text-truncate">{{this.id}}</td>
+        <td style="width: 80px;" class="  text-truncate">{{this.remote_station}}</td>
+        <td style="width: 80px;" class="  text-truncate">{{this.message}}</td>
+        <td style="width: 80px;" class="  text-truncate">{{this.date_time}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+  {{else}}
+  <div class="col-md-4-mx-auto">
+    <div class="card card-body text-center">
+      <tr>No hay balizas guardadas <a href="/aton/add"> Crea una!</a></tr>
+    </div>
+  </div>
+  {{/if}}
+
+</div>
