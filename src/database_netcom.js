@@ -19,6 +19,9 @@ pool_NETCOM.getConnection((err, connection) => {
         if (err.code === 'ER_ACCESS_DENIED_ERROR') {
             console.error('ACCESO _NETCOM denegado\n'+ stringify( config.database_NETCOM));
         }
+        if (err.code === 'ETIMEDOUT') {
+            console.error('ACCESO _NETCOM denegado\n'+ stringify( config.database_NETCOM));
+        }
     } else if (connection) {
         connection.release(); //con esto empieza la conexion
         console.log('DB_NETCOM is Connected');
