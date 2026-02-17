@@ -17,7 +17,7 @@ moment().format();
 router.get("/", async (req, res) => {
     const mensajes = await db.query("select * from uhf36_messages");
     console.log(mensajes)
-        res.render("netcom/list", {mensajes });
+        res.render("netbat/list", {mensajes });
 
 });
 
