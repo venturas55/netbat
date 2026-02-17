@@ -23,7 +23,7 @@ pool_NETCOM.getConnection((err, connection) => {
         if (err.code === 'ETIMEDOUT') {
             console.error('ETIMEDOUT ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
         }
-        console.error('ERROR FINAL  \n' + stringify(config.database_NETCOM));
+        console.error('ERROR FINAL  \n'+err+"\n" + stringify(config.database_NETCOM));
     } else if (connection) {
         connection.release(); //con esto empieza la conexion
         console.log('DB_NETCOM is Connected');
