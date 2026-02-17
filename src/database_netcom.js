@@ -18,12 +18,12 @@ pool_NETCOM.getConnection((err, connection) => {
             return 'ECONNREFUSED';
         }
         if (err.code === 'ER_ACCESS_DENIED_ERROR') {
-            console.error('ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
+            console.error('ER_ACCESS_DENIED_ERROR ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
         }
         if (err.code === 'ETIMEDOUT') {
-            console.error('ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
+            console.error('ETIMEDOUT ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
         }
-        console.error('ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
+        console.error('ERROR FINAL  \n' + stringify(config.database_NETCOM));
     } else if (connection) {
         connection.release(); //con esto empieza la conexion
         console.log('DB_NETCOM is Connected');
