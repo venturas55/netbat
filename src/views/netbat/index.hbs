@@ -1,6 +1,102 @@
-<h1>bienvenida a netbat</h1>
-<p>Puedes ver <a href="/netbat/listUHF"> mensajes UHF</a></tr>
-<p>Puedes ver <a href="/netbat/listAIS"> mensajes AIS</a></tr>
-<p>Puedes ver <a href="/netbat/listSMS"> mensajes SMS</a></tr>
-<p>Puedes ver <a href="/netbat/listMTU100"> mensajes MTU100</a></tr>
-<p>Puedes ver <a href="/netbat/listMTU300"> mensajes MTU300</a></tr>
+<div class="container py-5">
+
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">Bienvenido a NETBAT</h1>
+    <p class="text-muted">Centro de gestión de mensajes y comunicaciones</p>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- UHF -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-sm h-100 border-0 hover-card">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-broadcast fs-1 text-primary"></i>
+          </div>
+          <h5 class="card-title">Mensajes UHF</h5>
+          <p class="card-text text-muted small">
+            Consulta mensajes recibidos vía UHF.
+          </p>
+          <a href="/netbat/listUHF" class="btn btn-outline-primary w-100">
+            Ver mensajes
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- AIS -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-sm h-100 border-0">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-radar fs-1 text-success"></i>
+          </div>
+          <h5 class="card-title">Mensajes AIS</h5>
+          <p class="card-text text-muted small">
+            Visualiza mensajes del sistema AIS.
+          </p>
+          <a href="/netbat/listAIS" class="btn btn-outline-success w-100">
+            Ver mensajes
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SMS -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-sm h-100 border-0">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-chat-dots fs-1 text-warning"></i>
+          </div>
+          <h5 class="card-title">Mensajes SMS</h5>
+          <p class="card-text text-muted small">
+            Consulta mensajes enviados por SMS.
+          </p>
+          <a href="/netbat/listSMS" class="btn btn-outline-warning w-100">
+            Ver mensajes
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MTU100 -->
+    <div class="col-md-6 col-lg-6">
+      <div class="card shadow-sm h-100 border-0">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-cpu fs-1 text-danger"></i>
+          </div>
+          <h5 class="card-title">Mensajes MTU100</h5>
+          <p class="card-text text-muted small">
+            Gestión de dispositivos MTU100.
+          </p>
+          <a href="/netbat/listMTU100" class="btn btn-outline-danger w-100">
+            Ver mensajes
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MTU300 -->
+    <div class="col-md-6 col-lg-6">
+      <div class="card shadow-sm h-100 border-0">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-hdd-network fs-1 text-info"></i>
+          </div>
+          <h5 class="card-title">Mensajes MTU300</h5>
+          <p class="card-text text-muted small">
+            Gestión de dispositivos MTU300.
+          </p>
+          <a href="/netbat/listMTU300" class="btn btn-outline-info w-100">
+            Ver mensajes
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
