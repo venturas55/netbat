@@ -1,45 +1,91 @@
-<div class="container-fluid p-4 mb-3">
+<div class="container-fluid py-4">
 
   {{#if mensajes}}
 
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Listado de Mensajes</h5>
+      <span class="badge bg-light text-dark">{{mensajes.length}} registros</span>
+    </div>
 
-  <div class="table-responsive pb-4">
-    <table id="listado" class="listado mx-auto w-100 table table-hover table-dark">
-      <tr>
-        <th>#id</th>
-        <th>#idmsg</th>
-        <th>remote id</th>
-        <th>remote station</th>
-        <th>Mensaje</th>
-        <th>lat</th>
-        <th>lng</th>
-        <th>ritmo</th>
-        <th>Fecha</th>
-      </tr>
-      {{#each mensajes}}
-      <tr class="fila pinchable {{#if apagada}}baliza-apagada table-danger{{/if}}"
-        onclick="location.href='/aton/plantilla/{{nif}}';">
-        <td style="width: 80px;" class="text-truncate">{{this.id}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.id_messages_sent}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.remote_id}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.remote_station}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.message}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.lat_deg}}º {{this.lat_min}}' {{this.lat_sec}}"
-          {{this.lat_pos}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.lon_deg}}º {{this.lon_min}}' {{this.lon_sec}}"
-          {{this.lng_pos}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.lighter_rythm}}</td>
-        <td style="width: 80px;" class="text-truncate">{{formatearSp this.processed_on}}</td>
-      </tr>
-      {{/each}}
-    </table>
-  </div>
-  {{else}}
-  <div class="col-md-4-mx-auto">
-    <div class="card card-body text-center">
-      <tr>No hay mensajes guardados <a href="/netbat"> Crea una!</a></tr>
+    <div class="table-responsive" style="max-height: 75vh;">
+      <table class="table table-hover table-striped table-bordered align-middle mb-0">
+        
+        <thead class="table-dark sticky-top">
+          <tr class="text-center small text-uppercase">
+            <th>ID</th>
+            <th>ID Msg</th>
+            <th>Remote</th>
+            <th>Estación</th>
+            <th>Mensaje</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
+            <th>Ritmo</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+
+        <tbody class="small">
+          {{#each mensajes}}
+          <tr class="fila pinchable {{#if apagada}}table-danger{{/if}}"
+              onclick="location.href='/aton/plantilla/{{nif}}';"
+              style="cursor:pointer;">
+
+            <td class="fw-bold text-center">{{id}}</td>
+
+            <td class="text-center">{{id_messages_sent}}</td>
+
+            <td class="text-center">{{remote_id}}</td>
+
+            <td>{{remote_station}}</td>
+
+            <td>
+              <span data-bs-toggle="tooltip" title="{{message}}">
+                {{message}}
+              </span>
+            </td>
+
+            <td class="text-nowrap text-center">
+              {{lat_deg}}° {{lat_min}}' {{lat_sec}}" {{lat_pos}}
+            </td>
+
+            <td class="text-nowrap text-center">
+              {{lon_deg}}° {{lon_min}}' {{lon_sec}}" {{lng_pos}}
+            </td>
+
+            <td class="text-center">
+              <span class="badge bg-info text-dark">
+                {{lighter_rythm}}
+              </span>
+            </td>
+
+            <td class="text-center">
+              {{formatearSp processed_on}}
+            </td>
+
+          </tr>
+          {{/each}}
+        </tbody>
+
+      </table>
     </div>
   </div>
+
+  {{else}}
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm text-center p-4">
+        <div class="card-body">
+          <h5 class="mb-3">No hay mensajes guardados</h5>
+          <a href="/netbat" class="btn btn-primary">
+            Crear nuevo mensaje
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {{/if}}
 
 </div>
