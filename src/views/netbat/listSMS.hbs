@@ -26,10 +26,10 @@
         <td style="width: 80px;" class="text-truncate">{{this.message}}</td>
         <td style="width: 80px;" class="text-truncate">{{this.lat_deg}}º {{this.lat_min}}' {{this.lat_sec}}"
           {{this.lat_pos}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.lng_deg}}º {{this.lng_min}}' {{this.lng_sec}}"
+        <td style="width: 80px;" class="text-truncate">{{this.lon_deg}}º {{this.lon_min}}' {{this.lon_sec}}"
           {{this.lng_pos}}</td>
         <td style="width: 80px;" class="text-truncate">{{this.lighter_rythm}}</td>
-        <td style="width: 80px;" class="text-truncate">{{this.processed_on}}</td>
+        <td style="width: 80px;" class="text-truncate">{{formatearSp this.processed_on}}</td>
       </tr>
       {{/each}}
     </table>
