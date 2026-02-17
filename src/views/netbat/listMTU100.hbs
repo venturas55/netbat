@@ -1,0 +1,45 @@
+<div class="container-fluid p-4 mb-3">
+
+  {{#if mensajes}}
+
+
+  <div class="table-responsive pb-4">
+    <table id="listado" class="listado mx-auto w-100 table table-hover table-dark">
+      <tr>
+        <th>#id</th>
+        <th>#idmsg</th>
+        <th>remote id</th>
+        <th>remote station</th>
+        <th>Mensaje</th>
+        <th>lat</th>
+        <th>lng</th>
+        <th>ritmo</th>
+        <th>Fecha</th>
+      </tr>
+      {{#each mensajes}}
+      <tr class="fila pinchable {{#if apagada}}baliza-apagada table-danger{{/if}}"
+        onclick="location.href='/aton/plantilla/{{nif}}';">
+        <td style="width: 80px;" class="text-truncate">{{this.id}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.id_messages_sent}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.remote_id}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.remote_station}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.message}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.lat_deg}}º {{this.lat_min}}' {{this.lat_sec}}"
+          {{this.lat_pos}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.lng_deg}}º {{this.lng_min}}' {{this.lng_sec}}"
+          {{this.lng_pos}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.lighter_rythm}}</td>
+        <td style="width: 80px;" class="text-truncate">{{this.processed_on}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+  {{else}}
+  <div class="col-md-4-mx-auto">
+    <div class="card card-body text-center">
+      <tr>No hay mensajes guardados <a href="/netbat"> Crea una!</a></tr>
+    </div>
+  </div>
+  {{/if}}
+
+</div>

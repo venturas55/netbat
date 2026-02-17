@@ -15,19 +15,37 @@ moment().format();
 
 //CRUD  read
 router.get("/", async (req, res) => {
-    res.render("netbat/index", {layout: 'layoutnetbat'});
+    res.render("netbat/index", { layout: 'layoutnetbat' });
 
 });
 
-router.get("/list", async (req, res) => {
-    console.log("voy");
+router.get("/listUHF", async (req, res) => {
     const mensajes = await db.query("select * from uhf36_messages");
-    console.log("voy2");
     console.log(mensajes)
-    console.log("voy3");
-    res.render("netbat/list", {layout: 'layoutnetbat', mensajes });
-
+    res.render("netbat/listUHF", { layout: 'layoutnetbat', mensajes });
 });
 
+router.get("/listAIS", async (req, res) => {
+    const mensajes = await db.query("select * from ais216_messages");
+    console.log(mensajes)
+    res.render("netbat/listAIS", { layout: 'layoutnetbat', mensajes });
+});
 
+router.get("/listSMS", async (req, res) => {
+    const mensajes = await db.query("select * from sms36_messages");
+    console.log(mensajes)
+    res.render("netbat/listSMS", { layout: 'layoutnetbat', mensajes });
+});
+
+router.get("/listMTU100", async (req, res) => {
+    const mensajes = await db.query("select * from mtu100_messages");
+    console.log(mensajes)
+    res.render("netbat/listMTU100", { layout: 'layoutnetbat', mensajes });
+});
+
+router.get("/listMTU300", async (req, res) => {
+    const mensajes = await db.query("select * from mtu300_messages");
+    console.log(mensajes)
+    res.render("netbat/listMTU300", { layout: 'layoutnetbat', mensajes });
+});
 export default router;
