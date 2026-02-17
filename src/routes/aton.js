@@ -244,7 +244,7 @@ router.get("/list/:busqueda", async (req, res) => {
 });
 router.get("/plantilla/:nif", async (req, res) => {
     const { nif } = req.params;
-    const mensajes = await dbnetcom.query("select * from uhf36_messages where");
+    
 
     //const baliza = await db.db.query('SELECT * FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif where b.nif=?', [nif]);  CON ESTA CONSULTA EL LEFT JOIN NO FUNCIONA BIEN PARA EL HIPOTETICO CASO EN EL QUE EXISTE UN ATON QUE NO ESTA EN ALGUNA DE LAS TRES TABLAS
     const baliza = await db.query(queryListadoAton + ' where b.nif=?', [nif]);
@@ -256,7 +256,8 @@ router.get("/plantilla/:nif", async (req, res) => {
         var fotos = await funciones.getFotosOrdenadas(nif);
         if (baliza[0].esBoya)
             var [fondeo] = await db.query('select * from fondeos where nif=?', [nif]);
-        res.render("aton/plantilla", { layout: 'layoutPlantilla', baliza: baliza[0], obs: observaciones, mant: mantenimiento, fotos, tickets, preventivos, fondeo });
+        const mensajes = await dbnetcom.query("select * from uhf36_messages where remote_station=?",baliza[0].telecontrol);
+        res.render("aton/plantilla", { layout: 'layoutPlantilla', baliza: baliza[0], obs: observaciones, mant: mantenimiento, fotos, tickets, preventivos, fondeo, mensajes });
     } else {
         req.flash("warning", "La señal indicada con nif " + nif + " no existe!!");
         res.redirect("/error");
