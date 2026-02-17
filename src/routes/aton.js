@@ -256,7 +256,7 @@ router.get("/plantilla/:nif", async (req, res) => {
         var fotos = await funciones.getFotosOrdenadas(nif);
         if (baliza[0].esBoya)
             var [fondeo] = await db.query('select * from fondeos where nif=?', [nif]);
-        const mensajes = await dbnetcom.query("select * from sms36_messages where remote_station=?",baliza[0].telecontrol);
+        const mensajes = await dbnetcom.query("select * from sms36_messages where remote_station=? order by date_time desc top 100",baliza[0].remote_id);
         res.render("aton/plantilla", { layout: 'layoutPlantilla', baliza: baliza[0], obs: observaciones, mant: mantenimiento, fotos, tickets, preventivos, fondeo, mensajes });
     } else {
         req.flash("warning", "La señal indicada con nif " + nif + " no existe!!");
