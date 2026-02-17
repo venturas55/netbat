@@ -244,7 +244,7 @@ router.get("/list/:busqueda", async (req, res) => {
 });
 router.get("/plantilla/:nif", async (req, res) => {
     const { nif } = req.params;
-    
+
 
     //const baliza = await db.db.query('SELECT * FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif where b.nif=?', [nif]);  CON ESTA CONSULTA EL LEFT JOIN NO FUNCIONA BIEN PARA EL HIPOTETICO CASO EN EL QUE EXISTE UN ATON QUE NO ESTA EN ALGUNA DE LAS TRES TABLAS
     const baliza = await db.query(queryListadoAton + ' where b.nif=?', [nif]);
@@ -377,7 +377,7 @@ router.post("/editCaracteristicas/:nif", funciones.isAuthenticated, funciones.ha
         //cambiar de nombre la carpeta de fotos
 
         var oldName = join(__dirname, '../public/img/imagenes/', nifviejo);
-        var newName = join(__dirname, '../public/img/imagenes/', nif);
+        var newName = join(__dirname, '../public/img/imagenes/', newBaliza.nif);
         await fs.rename(oldName, newName);
 
         funciones.insertarLog(req.user.usuario, "UPDATE balizamiento", newBaliza.nif + " " + newBaliza.num_internacional + " " + newBaliza.tipo + " " + newBaliza.telecontrol + newBaliza.apariencia + " " + newBaliza.periodo + " " + newBaliza.caracteristica);
@@ -456,24 +456,10 @@ router.post("/editLocalizacionFromMap/:nif", funciones.isAuthenticated, funcione
 });
 router.post("/editLampara/:nif", funciones.isAuthenticated, funciones.hasSanPrivileges, async (req, res) => {
     const nifviejo = req.params.nif;
-    var {
-        altura,
-        elevacion,
-        alcanceNom,
-        linterna,
-        candelasCalc,
-        alcanceLum,
-        candelasInst,
-    } = req.body;
+
     const newBaliza = {
         nif: nifviejo,
-        altura,
-        elevacion,
-        alcanceNom,
-        linterna,
-        candelasCalc,
-        alcanceLum,
-        candelasInst,
+        ...req.body
     };
     try {
         var baliza = await db.query("SELECT * FROM lampara WHERE nif=?", [nifviejo]);
@@ -496,30 +482,9 @@ router.post("/editLampara/:nif", funciones.isAuthenticated, funciones.hasSanPriv
 });
 router.post("/editFondeo/:nif", funciones.isAuthenticated, funciones.hasSanPrivileges, async (req, res) => {
     const nifviejo = req.params.nif;
-    var {
-        calado,
-        longitud_cadena,
-        ubicacion,
-        h_muerto, b_muerto, l_muerto,
-        diametro_cadena,
-        observaciones,
-        area_total_viva,
-        Cw_aerodinamico,
-        area_total_muerta,
-        Cd_aerodinamico,
-    } = req.body;
     const newBaliza = {
         nif: nifviejo,
-        calado,
-        longitud_cadena,
-        ubicacion,
-        h_muerto, b_muerto, l_muerto,
-        diametro_cadena,
-        observaciones,
-        area_total_viva,
-        Cw_aerodinamico,
-        area_total_muerta,
-        Cd_aerodinamico,
+    ...req.body
     };
     console.log("params", newBaliza)
     try {
