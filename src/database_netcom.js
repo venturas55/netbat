@@ -1,7 +1,8 @@
 import mysql from 'mysql2';
 import { promisify } from 'util';
 import { stringify } from 'querystring';
-import { config }  from './config.js'; //traigo el database desde el archivo
+import { config } from './config.js'; //traigo el database desde el archivo
+console.log("en database_netcom");
 const pool_NETCOM = mysql.createPool(config.database_NETCOM);
 
 pool_NETCOM.getConnection((err, connection) => {
@@ -17,11 +18,12 @@ pool_NETCOM.getConnection((err, connection) => {
             return 'ECONNREFUSED';
         }
         if (err.code === 'ER_ACCESS_DENIED_ERROR') {
-            console.error('ACCESO _NETCOM denegado\n'+ stringify( config.database_NETCOM));
+            console.error('ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
         }
         if (err.code === 'ETIMEDOUT') {
-            console.error('ACCESO _NETCOM denegado\n'+ stringify( config.database_NETCOM));
+            console.error('ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
         }
+        console.error('ACCESO _NETCOM denegado\n' + stringify(config.database_NETCOM));
     } else if (connection) {
         connection.release(); //con esto empieza la conexion
         console.log('DB_NETCOM is Connected');

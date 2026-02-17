@@ -20,8 +20,11 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/list", async (req, res) => {
+    console.log("voy");
     const mensajes = await db.query("select * from uhf36_messages");
+    console.log("voy2");
     console.log(mensajes)
+    console.log("voy3");
     res.render("netbat/list", {layout: 'layoutnetbat', mensajes });
 
 });
