@@ -329,28 +329,16 @@ router.get("/editFondeo/:nif", funciones.isAuthenticated, funciones.hasSanPrivil
 });
 router.post("/editCaracteristicas/:nif", funciones.isAuthenticated, funciones.hasSanPrivileges, async (req, res) => {
     const nifviejo = req.params.nif;
-    console.log("nif viejo: ", nifviejo)
-    var {
-        nif,
-        num_internacional,
-        tipo,
-        telecontrol,
-        apariencia,
-        periodo,
-        caracteristica,
-        esBoya,
-    } = req.body;
-    periodo = parseInt(periodo);
+    console.log("nif viejo: ", nifviejo);
+    // Convertimos el body completo en un objeto newBaliza, asignando el nifviejo a nif
     const newBaliza = {
-        nif,
-        num_internacional,
-        tipo,
-        telecontrol,
-        apariencia,
-        periodo,
-        caracteristica,
-        esBoya,
+        nif: nifviejo,  // Usamos el nif que viene de la ruta, no el del body
+        ...req.body,    // Esto copia todos los campos de req.body en newBaliza
     };
+    // Si tienes alguna transformación adicional que hacer (por ejemplo, convertir 'periodo' a un número entero)
+    if (newBaliza.periodo) {
+        newBaliza.periodo = parseInt(newBaliza.periodo);
+    }
     console.log(newBaliza);
     try {
         await db.query("UPDATE balizamiento set ? WHERE nif = ?", [
@@ -411,20 +399,9 @@ router.post("/editCaracteristicas/:nif", funciones.isAuthenticated, funciones.ha
 });
 router.post("/editLocalizacion/:nif", funciones.isAuthenticated, funciones.hasSanPrivileges, async (req, res) => {
     const nifviejo = req.params.nif;
-    var {
-        puerto,
-        num_local,
-        localizacion,
-        latitud,
-        longitud,
-    } = req.body;
     const newBaliza = {
         nif: nifviejo,
-        puerto,
-        num_local,
-        localizacion,
-        latitud,
-        longitud,
+        ...req.body // 
     };
     try {
 
