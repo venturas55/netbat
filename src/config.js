@@ -39,7 +39,7 @@ const database_NETCOM = {
   user: DB_USER_NETCOM,
   password: DB_PASS_NETCOM,
   database: DB_NAME_NETCOM,
-  PORT: DB_PORT_NETCOM
+  port: DB_PORT_NETCOM
 };
   //masterPass: '2a$10$.6weXYERL6XMB7nb0xcMTus/Qbi4aotItCWLs3QyBDk7cup4oCOo.',
 
