@@ -15,9 +15,14 @@ moment().format();
 
 //CRUD  read
 router.get("/", async (req, res) => {
+    res.render("netbat/index", {layout: 'layoutnetbat'});
+
+});
+
+router.get("/list", async (req, res) => {
     const mensajes = await db.query("select * from uhf36_messages");
     console.log(mensajes)
-        res.render("netbat/list", {mensajes });
+    res.render("netbat/list", {layout: 'layoutnetbat', mensajes });
 
 });
 
