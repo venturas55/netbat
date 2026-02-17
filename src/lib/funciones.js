@@ -14,12 +14,18 @@ funciones.getFotosOrdenadas = async (nif) => {
     const directorio = join(__dirname, "../public/img/imagenes", nif);
 
     try {
+        // Verificamos si el directorio existe
+        await fs.access(directorio);
+
         const files = await fs.readdir(directorio);
+
+        if (!files.length) return [];
 
         const archivosConFechas = await Promise.all(
             files.map(async (file) => {
                 const rutaCompleta = join(directorio, file);
                 const stats = await fs.stat(rutaCompleta);
+
                 return {
                     file,
                     time: stats.mtime,
@@ -28,10 +34,18 @@ funciones.getFotosOrdenadas = async (nif) => {
         );
 
         archivosConFechas.sort((a, b) => b.time - a.time);
+
         return archivosConFechas.map(f => f.file);
 
     } catch (err) {
-        console.error("Error al leer imágenes:", err);
+
+        // Si la carpeta no existe → no lo tratamos como error
+        if (err.code === "ENOENT") {
+            return [];
+        }
+
+        // Otros errores sí los mostramos
+        console.error("Error real al leer imágenes:", err);
         return [];
     }
 };

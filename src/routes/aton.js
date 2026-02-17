@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import { join } from 'path';
 import db from "../database.js"; //db hace referencia a la BBDD
+import dbnetcom from "../database_netcom.js"; //db hace referencia a la BBDD
 import funciones from "../lib/funciones.js";
 import { promises as fs } from 'fs';
 const queryListadoAton = "SELECT lo.coordenadas,b.nif,b.num_internacional,b.tipo,b.apariencia,b.periodo,b.caracteristica,b.telecontrol,b.necesita_pintado,b.apagada,b.esBoya,lo.puerto,lo.num_local,lo.localizacion,lo.latitud,lo.longitud,la.altura,la.elevacion,la.alcanceNom,la.linterna,la.candelasCalc,la.alcanceLum,la.candelasInst,f.calado,f.longitud_cadena,f.ubicacion,f.h_muerto,f.l_muerto,f.b_muerto,f.diametro_cadena,f.area_total_viva,f.Cw_aerodinamico,f.area_total_muerta,f.Cd_aerodinamico,f.observaciones,f.last_modified FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif LEFT JOIN fondeos f ON f.nif=b.nif";
@@ -243,6 +244,7 @@ router.get("/list/:busqueda", async (req, res) => {
 });
 router.get("/plantilla/:nif", async (req, res) => {
     const { nif } = req.params;
+    const mensajes = await dbnetcom.query("select * from uhf36_messages where");
 
     //const baliza = await db.db.query('SELECT * FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif where b.nif=?', [nif]);  CON ESTA CONSULTA EL LEFT JOIN NO FUNCIONA BIEN PARA EL HIPOTETICO CASO EN EL QUE EXISTE UN ATON QUE NO ESTA EN ALGUNA DE LAS TRES TABLAS
     const baliza = await db.query(queryListadoAton + ' where b.nif=?', [nif]);
@@ -252,8 +254,6 @@ router.get("/plantilla/:nif", async (req, res) => {
         const tickets = await db.query(queryListadoTicketsUsers + 'where t.nif=? and solved_at is null', [nif]);
         const preventivos = await db.query(queryListadoPreventivosUsers + 'where p.nif=? and solved_at is null', [nif]);
         var fotos = await funciones.getFotosOrdenadas(nif);
-        console.log("fotos: ", fotos);
-        //console.log("Es boya??", baliza[0]);
         if (baliza[0].esBoya)
             var [fondeo] = await db.query('select * from fondeos where nif=?', [nif]);
         res.render("aton/plantilla", { layout: 'layoutPlantilla', baliza: baliza[0], obs: observaciones, mant: mantenimiento, fotos, tickets, preventivos, fondeo });
