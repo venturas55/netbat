@@ -17,31 +17,31 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/listUHF", async (req, res) => {
-    const mensajes = await db.query("select * from uhf36_messages");
+    const mensajes = await db.query("select * from uhf36_messages order by date_time desc limit 500");
     console.log(mensajes)
     res.render("netbat/listUHF", { layout: 'layoutnetbat', mensajes });
 });
 
 router.get("/listAIS", async (req, res) => {
-    const mensajes = await db.query("select * from ais216_messages");
+    const mensajes = await db.query("select * from ais216_messages order by date_time desc");
     console.log(mensajes)
     res.render("netbat/listAIS", { layout: 'layoutnetbat', mensajes });
 });
 
 router.get("/listSMS", async (req, res) => {
-    const mensajes = await db.query("select * from sms36_messages");
+    const mensajes = await db.query("select * from sms36_messages order by date_time desc");
     console.log(mensajes)
     res.render("netbat/listSMS", { layout: 'layoutnetbat', mensajes });
 });
 
 router.get("/listMTU100", async (req, res) => {
-    const mensajes = await db.query("select * from mtu100_messages");
+    const mensajes = await db.query("select * from mtu100_messages order by date_time desc");
     console.log(mensajes)
     res.render("netbat/listMTU100", { layout: 'layoutnetbat', mensajes });
 });
 
 router.get("/listMTU300", async (req, res) => {
-    const mensajes = await db.query("select * from mtu300_messages");
+    const mensajes = await db.query("select * from mtu300_messages order by date_time desc");
     console.log(mensajes)
     res.render("netbat/listMTU300", { layout: 'layoutnetbat', mensajes });
 });
