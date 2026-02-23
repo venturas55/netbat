@@ -35,7 +35,7 @@ const storage = diskStorage({
 
     },
     filename: (req, file, cb) => {
-        cb(null, new Date().getTime() + _extname(file.originalname).toLowerCase());
+        cb(null, file.originalname.toLowerCase());
     }
 });
 
@@ -118,10 +118,11 @@ router.get("/aton/fotos/:nif", async (req, res) => {
     var fotos = await funciones.getFotosOrdenadas(nif);
     // Recorrer todas las fotos y buscar su descripción si existe
     fotos = await Promise.all(fotos.map(async (nombreFoto) => {
-        const rows = await db.query("SELECT descripcion FROM fotos_balizamiento WHERE nombre = ?", [nombreFoto]);
+        const rows = await db.query("SELECT * FROM fotos_balizamiento WHERE nombre = ?", [nombreFoto]);
         return {
             nombre: nombreFoto,
-            descripcion: rows.length ? rows[0].descripcion : ''
+            descripcion: rows.length ? rows[0].descripcion : '',
+            created_at: rows.length ? rows[0].created_at : null
         };
     }));
 

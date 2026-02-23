@@ -15,6 +15,9 @@
           <h4 class=" fst-italic mb-4" id="descripcion-actual">{{foto.descripcion}}</h4>
           {{/if}}
           <p class="text-muted mb-3 text-break">{{nombre}}</p>
+          {{#if foto.created_at}}
+          <p class="text-muted mb-3 text-break">Subida el {{formatearSp foto.created_at}}</p>
+          {{/if}}
           <!-- Botón para mostrar el campo de edición -->
           <button type="button" class="btn btn-outline-info mb-3" onclick="mostrarEdicion()">
             Editar descripción

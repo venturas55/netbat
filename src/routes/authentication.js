@@ -109,16 +109,17 @@ router.post('/profile/email/recordarpass/', async (req, res) => { //:email
         //console.log(hash);
         var hasAnyToken = await db.query("SELECT * FROM tokens WHERE user_id=?", [user_id]);
         if (hasAnyToken.length > 0) {
-            rows = await db.query("UPDATE tokens set hashedtoken=? , expires =NOW()+ interval 5 minute where user_id=?", [hash, user_id,]);
+            rows = await db.query("UPDATE tokens set hashedtoken=? , expires =NOW()+ interval 24 hour where user_id=?", [hash, user_id,]);
         } else {
-            rows = await db.query("INSERT INTO tokens (user_id,hashedtoken, expires) VALUES (?,?, NOW()+ interval 5 minute)", [user_id, hash]);
+            rows = await db.query("INSERT INTO tokens (user_id,hashedtoken, expires) VALUES (?,?, NOW()+ interval 24 hour)", [user_id, hash]);
         }
         //var exito = await helpers.sendRecoveryMail(email,token); NOFUNCIONA 
         //console.log(email + " " + token);
         var mailOptions = {
-            from: config.EMAIL_ACCOUNT,
+            from: `"WEBSAN Support" <${config.EMAIL_ACCOUNT}>`,
             to: email,
             subject: 'Restablecer contraseña BBDD SAN',
+            replyTo: `${config.EMAIL_ACCOUNT}`,
             html: ` 
                     <!DOCTYPE html>
                     <html lang="es">
@@ -171,7 +172,7 @@ router.post('/profile/email/recordarpass/', async (req, res) => { //:email
                                 <span>Autoridad Portuaria de Valencia 2025</span>
                                     <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by/4.0/">
                                         <img alt="Creative Commons License" src="cid:ccby"/>
-                                    </a><span >Autor: </span> <a target="_blank" style="text-decoration:none;" href="https://adriandeharo.es">Adrian de Haro </a>
+                                    </a><span >Autor: </span> <a target="_blank" style="text-decoration:none;" href="https://guardiandelfaro.es">Adrian de Haro </a>
                                     <span style="display: inline-block;transform: rotate(180deg);"> &copy; </span>
                                     <span> bajo licencia</span> <a rel="license" target="_blank" style="text-decoration:none;" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons.</a>
                                 </td>

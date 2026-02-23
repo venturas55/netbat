@@ -11,6 +11,7 @@ import cors from "cors";
 import "./lib/passport.js"; //para que se entere de la autentificacion que se ha creado
 import * as path from "path";
 import * as url from "url";
+import logger from "./lib/logger.js"
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 //Inicializacion
@@ -67,7 +68,6 @@ app.use(json()); //Para enviar y recibir jsons.
 app.use(passport.initialize()); //iniciar passport
 app.use(passport.session()); //para que sepa donde guardar y como manejar los datos
 
-
 //Variables globales (que podrán ser usadas en cualquier vista)
 app.use((req, res, next) => {
   app.locals.signupMessage = req.flash("signupMessage");
@@ -107,9 +107,9 @@ app.use(inventario);
 app.use(backups);
 app.use(mapas);
 app.use(profile);
-app.use("/netbat",netbat);
 app.use("/tickets", tickets);
 app.use("/mantenimientopreventivo", preventivos);
+app.use("/netbat", netbat);
 
 //Public
 //Bootstrap
@@ -123,6 +123,23 @@ app.use("/css", express.static(path.join(__dirname, "../node_modules/font-awesom
 
 //Leaflet
 app.use("/leaflet", express.static(path.join(__dirname, "../node_modules", "leaflet", "dist")));
+
+
+//ultimo middleware para log de errores del servidor
+app.use((err, req, res, next) => {
+  logger.error({
+    message: err.message,
+    stack: err.stack,
+    route: req.originalUrl,
+    method: req.method,
+    ip: req.ip
+  });
+
+  res.status(500).json({
+    error: 'Error interno del servidor'
+  });
+});
+
 
 //Arrancar servidor
 app.listen(app.get("port"), () => {

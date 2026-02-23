@@ -40,7 +40,8 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     {{#each tickets}}
-                    <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start">
+                    <li
+                        class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start">
                         <div>
                             <span class="fw-semibold">ID: {{this.ticket_id}}</span> - '{{this.titulo}}'
                             <span class="d-block d-md-inline text-muted small">
@@ -48,7 +49,8 @@
                             </span>
                         </div>
                         <div>
-                            <a href="/tickets/edit/{{this.ticket_id}}" class="btn btn-sm btn-outline-primary ms-md-3 mt-2 mt-md-0">
+                            <a href="/tickets/edit/{{this.ticket_id}}"
+                                class="btn btn-sm btn-outline-primary ms-md-3 mt-2 mt-md-0">
                                 <i class="fa fa-pen-to-square"></i> Editar
                             </a>
                         </div>
@@ -70,7 +72,8 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     {{#each preventivos}}
-                    <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start">
+                    <li
+                        class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start">
                         <div>
                             <span class="fw-semibold">ID: {{this.preventivo_id}}</span>
                             <span class="d-block d-md-inline text-muted small">
@@ -78,7 +81,8 @@
                             </span>
                         </div>
                         <div>
-                            <a href="/mantenimientopreventivo/edit/{{this.preventivo_id}}" class="btn btn-sm btn-outline-primary ms-md-3 mt-2 mt-md-0">
+                            <a href="/mantenimientopreventivo/edit/{{this.preventivo_id}}"
+                                class="btn btn-sm btn-outline-primary ms-md-3 mt-2 mt-md-0">
                                 <i class="fa fa-pen-to-square"></i> Editar
                             </a>
                         </div>
@@ -133,11 +137,11 @@
                 </tr>
                 <tr>
                     <th>Caracteristica</th>
-                    <td>{{baliza.caracteristica}}</td>
+                    <td id="caracteristicaID">{{baliza.caracteristica}}</td>
                 </tr>
                 <tr>
                     <th>Telecontrol</th>
-                    <td>{{baliza.telecontrol}} - ID:{{baliza.remote_id}} </td>
+                    <td>{{baliza.telecontrol}}</td>
                 </tr>
                 <tr>
                     <th>Es Boya?</th>
@@ -223,6 +227,10 @@
                 <tr>
                     <th>Alcance Luminoso (MN)</th>
                     <td>{{baliza.alcanceLum}}</td>
+                </tr>
+                <tr>
+                    <th>Distancia Reconocimiento(MN)</th>
+                    <td>{{baliza.distanciaRec}}</td>
                 </tr>
                 <tr>
                     <th>Intensidad estacionaria (Cd)</th>
@@ -334,6 +342,10 @@
                     <td>{{baliza.nif}}</td>
                 </tr> --}}
                 <tr>
+                    <th>Flotador</th>
+                    <td>{{fondeo.composicion_flotador}} con D:{{fondeo.diametro_flotador}}cm h:{{fondeo.altura_flotador}}  Altura Focal:{{fondeo.altura_focal}}  </td>
+                </tr>
+                <tr>
                     <th>Calado</th>
                     <td>{{fondeo.calado}} m</td>
                 </tr>
@@ -350,11 +362,11 @@
                     <td>{{fondeo.l_muerto}} x {{fondeo.b_muerto}} x {{fondeo.h_muerto}} cm3</td>
                 </tr>
                 <tr>
-                    <th>Datos Obra viva</th>
-                    <td>Area water {{fondeo.area_total_viva}}m2 Cd: {{fondeo.Cw_aerodinamico}}</td>
+                    <th>Datos Obra viento</th>
+                    <td>Area wind {{fondeo.area_total_viva}}m2 Cw: {{fondeo.Cw_aerodinamico}}</td>
                 </tr>
                 <tr>
-                    <th>Datos Obra viva</th>
+                    <th>Datos Obra sumergida</th>
                     <td>Area draft {{fondeo.area_total_muerta}}m2 Cd: {{fondeo.Cd_aerodinamico}}</td>
                 </tr>
                 <tr>

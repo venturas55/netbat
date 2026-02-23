@@ -51,7 +51,7 @@
 
             <div class="form-floating mb-3">
               <select class="form-select" name="prefmap" id="prefmap">
-                <option value="Leaflet"  {{#when "Leaflet" 'eq' user.prefmap }} selected {{/when}}>Leaflet</option>
+                <option value="Leaflet" {{#when "Leaflet" 'eq' user.prefmap }} selected {{/when}}>Leaflet</option>
                 <option value="Google" {{#when "Google" 'eq' user.prefmap }} selected {{/when}}>Google Maps</option>
               </select>
               <label for="prefmap">Tipo de mapa</label>
@@ -59,9 +59,12 @@
 
             <div class="form-floating mb-3">
               <select class="form-select" name="default_localizacion" id="default_localizacion">
-                <option value="valencia" {{#when "valencia" 'eq' user.default_localizacion }} selected {{/when}}>Valencia</option>
-                <option value="sagunto" {{#when "sagunto" 'eq' user.default_localizacion }} selected {{/when}}>Sagunto</option>
-                <option value="gandia" {{#when "gandia" 'eq' user.default_localizacion }} selected {{/when}}>Gandia</option>
+                <option value="valencia" {{#when "valencia" 'eq' user.default_localizacion }} selected {{/when}}>
+                  Valencia</option>
+                <option value="sagunto" {{#when "sagunto" 'eq' user.default_localizacion }} selected {{/when}}>Sagunto
+                </option>
+                <option value="gandia" {{#when "gandia" 'eq' user.default_localizacion }} selected {{/when}}>Gandia
+                </option>
               </select>
               <label for="default_localizacion">Puerto por defecto</label>
             </div>
@@ -71,8 +74,7 @@
               <a href="/profile" class="btn btn-outline-secondary btn-sm">Cancelar</a>
             </div>
             <div class="my-4 d-grid gap-2 d-md-block">
-              <p>Para cambiar la contraseña haz click <span>  <a href="/profile/changepass" class="">aqui</a></span></p> 
-            
+              <p>Para cambiar la contraseña haz click <span> <a href="/profile/changepass" class="">aqui</a></span></p>
             </div>
 
           </form>

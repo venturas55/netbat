@@ -46,27 +46,32 @@ router.post('/profile/edit', funciones.isAuthenticated, async (req, res) => {
 router.get("/profile/delete/:id", funciones.isAuthenticated, async (req, res) => {
     console.log(req.params);
     const { id } = req.params;
-    const user = await db.query("SELECT * FROM usuarios where id=?", id);
-    //borramos foto
-    const filePath = resolve('src/public/img/profiles/' + user.pictureURL);
-    fs.access(filePath, fs.constants.F_OK, async (err) => {
-        if (err) {
-            console.log("No tiene foto de perfil");
-        } else {
-            console.log('File exists. Deleting now ...');
-            await fse.unlink(filePath);
-        }
-    });
-    //hacemos logout
-    req.logout(async function (err) {
-        if (err) {
-            return next(err);
-        }
-        await db.query("DELETE FROM sessions ");
-        await db.query("DELETE FROM usuarios WHERE id=?", [id]);
-    });
-    req.flash("success", "Usuario borrado correctamente");
-    res.redirect('/');
+    if (req.user.id == id) {
+        const user = await db.query("SELECT * FROM usuarios where id=?", id);
+        //borramos foto
+        const filePath = resolve('src/public/img/profiles/' + user.pictureURL);
+        fs.access(filePath, fs.constants.F_OK, async (err) => {
+            if (err) {
+                console.log("No tiene foto de perfil");
+            } else {
+                console.log('File exists. Deleting now ...');
+                await fse.unlink(filePath);
+            }
+        });
+        //hacemos logout
+        req.logout(async function (err) {
+            if (err) {
+                return next(err);
+            }
+            await db.query("DELETE FROM sessions ");
+            await db.query("DELETE FROM usuarios WHERE id=?", [id]);
+        });
+        req.flash("success", "Usuario borrado correctamente");
+        res.redirect('/');
+    } else {
+        req.flash("warning", "Error al intentar la operación");
+        res.redirect('/profile');
+    }
 });
 router.post('/doAdmin', funciones.isAuthenticated, async (req, res) => {
     const { pass, privilegio } = req.body;

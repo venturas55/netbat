@@ -2,7 +2,12 @@
     <div class="container-fluid">
         <div class="d-flex flex-column p-0 m-0">
             <div>
-                <a class="navbar-brand d-none d-sm-inline" href="/mapaGeneral/{{user.default_localizacion}}">BBDD SAN</a>
+                {{#if user.default_localizacion}}
+                <a class="navbar-brand d-none d-sm-inline" href="/mapaGeneral/{{user.default_localizacion}}">BBDD
+                    SAN</a>
+                {{else}}
+                <a class="navbar-brand d-none d-sm-inline" href="/mapaGeneral/valencia">BBDD SAN</a>
+                {{/if}}
                 {{#if user}}
                 {{>avatar}}
                 {{/if}}
@@ -65,7 +70,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/tickets/list">Ver Tickets</a>
                         <a class="dropdown-item" href="/tickets/add"> Crear ticket</a>
-                         <a class="dropdown-item" href="/aton/pintadas/list">Ver Pintadas</a>
+                        <a class="dropdown-item" href="/aton/pintadas/list">Ver Pintadas</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/mantenimientopreventivo/list">Ver Preventivos</a>
                         <a class="dropdown-item" href="/mantenimientopreventivo/add">Crear Preventivo</a>
@@ -112,7 +117,8 @@
                         <a class="dropdown-item" href="/calculos">Calculos</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" target="_blank" href="https://portalaton.puertos.es/">Portal AtoN</a>
-                        <a class="dropdown-item" target="_blank" href="https://portalapv.valenciaport.com/">Portal APV</a>
+                        <a class="dropdown-item" target="_blank" href="https://portalapv.valenciaport.com/">Portal
+                            APV</a>
                     </ul>
                 </li>
 
@@ -138,6 +144,8 @@
                         <a class="dropdown-item" href="/api/baliza/25720">API baliza</a>
                         <a class="dropdown-item" href="/api/mantenimiento/25720">API mantenimiento</a>
                         <a class="dropdown-item" href="/api/observaciones/25720">API observaciones</a>
+                        <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="/api/logs/errors">Log errores</a>
                         {{!-- <div class="form-group">
                             <label for="nif">NIF</label>
                             <input type="email" class="form-control" id="nif" placeholder="25720">

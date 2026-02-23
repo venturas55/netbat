@@ -49,9 +49,11 @@
     "nodemailer": "^6.9.13",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "puppeteer": "^24.37.5",
     "speakeasy": "^2.0.0",
     "timeago.js": "^4.0.2",
     "uuidv4": "^6.2.13",
+    "winston": "^3.19.0",
     "zip-lib": "^1.0.3",
     "zod": "^3.25.23"
   },

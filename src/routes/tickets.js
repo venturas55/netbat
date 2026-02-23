@@ -12,8 +12,9 @@ moment().format();
 router.get('/list', async(req, res) => {
     try {
         const tickets = await db.query(queryListadoTicketsUsers + " order by t.solved_at asc,t.created_at desc");
+        const usuarios = await db.query("select * from usuarios");
         res.render('tickets/list', {
-            tickets
+            tickets,usuarios
         });
     } catch (error) {
         console.error(error);

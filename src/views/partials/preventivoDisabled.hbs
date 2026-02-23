@@ -7,6 +7,7 @@
     <p class="text-center">Fecha revisión: <strong> {{formatearSp preventivo.fecha}}</strong></p>
 </div>
 <div class="border border-primary rounded estructura p-2 m-2">
+     <h3>Estructura</h3>
     <div class="form-group">
         <label for="titulo">Estado</label>
         {{#when preventivo.estructura_estado 'eq' 'ok'}}
@@ -212,11 +213,12 @@
     {{#if preventivo.foto_estructura}}
     <div class="form-group">
         <img class="img-fluid rounded mx-auto d-block" style="max-width: 100%; height: auto; max-height: 300px;"
-            src="/img/preventivos/{{preventivo.foto_estructura}}" alt="Estructura">
+            src="/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_estructura}}" alt="Estructura">
     </div>
     {{/if}}
 </div>
 <div class="border border-primary rounded linterna p-2 m-2">
+     <h3>Linterna</h3>
     <div class="form-group">
         <label for="titulo">Encendido LDR1</label>{{#when
         preventivo.linterna_ldr1 'eq' 'ok' }}
@@ -334,11 +336,12 @@
     {{#if preventivo.foto_linterna}}
     <div class="form-group">
         <img class="img-fluid rounded mx-auto d-block" style="max-width: 100%; height: auto; max-height: 300px;"
-            src="/img/preventivos/{{preventivo.foto_linterna}}" alt="foto_linterna">
+            src="/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_linterna}}" alt="foto_linterna">
     </div>
     {{/if}}
 </div>
 <div class="border border-primary rounded telecontrol p-2 m-2">
+     <h3>Telecontrol</h3>
     <div class="form-group">
         <label for="titulo">telecontrol_monitoreo</label>{{#when preventivo.telecontrol_monitoreo 'eq' 'ok' }}
         <div class="form-check form-check-inline">
@@ -389,11 +392,12 @@
     {{#if preventivo.foto_monitoreo}}
     <div class="form-group">
         <img class="img-fluid rounded mx-auto d-block" style="max-width: 100%; height: auto; max-height: 300px;"
-            src="/img/preventivos/{{preventivo.foto_monitoreo}}" alt="foto_monitoreo">
+            src="/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_monitoreo}}" alt="foto_monitoreo">
     </div>
     {{/if}}
 </div>
 <div class="border border-primary rounded alimentacion p-2 m-2">
+     <h3>Alimentacion</h3>
     <div class="form-group">
         <label for="titulo">Panel fotovoltaico</label>{{#when preventivo.alimentacion_panelFV 'eq' 'ok' }}
         <div class="form-check form-check-inline">
@@ -508,11 +512,12 @@
     {{#if preventivo.foto_alimentacion}}
     <div class="form-group">
         <img class="img-fluid rounded mx-auto d-block" style="max-width: 100%; height: auto; max-height: 300px;"
-            src="/img/preventivos/{{preventivo.foto_alimentacion}}" alt="foto_alimentacion">
+            src="/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_alimentacion}}" alt="foto_alimentacion">
     </div>
     {{/if}}
 </div>
 <div class="border border-primary rounded form-group p-2 m-2">
+     <h3>Observaciones generales</h3>
     <div class="form-group">
         <label for="item">Observaciones Generales</label>
         <textarea readonly class="form-control" rows="4" cols="50"
@@ -521,7 +526,7 @@
     {{#if preventivo.foto_general}}
     <div class="form-group">
         <img class="img-fluid rounded mx-auto d-block" style="max-width: 100%; height: auto; max-height: 300px;"
-            src="/img/preventivos/{{preventivo.foto_alimentacion}}" alt="foto_alimentacion">
+            src="/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_alimentacion}}" alt="foto_alimentacion">
     </div>
     {{/if}}
 </div>

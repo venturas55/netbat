@@ -4,7 +4,7 @@
         <strong>Este preventivo está cerrado</strong> ({{formatearEn preventivo.solved_at}})
     </div>
     <div class="row">
-        <div class="col-md-8 mx-auto py-4">
+        <div class="col-lg-8 mx-auto py-4">
             <div class="card pb-4">
                 <div class="card-header text-center">
                     <h2> Información del Preventivo <small class="text-muted"> {{preventivo.preventivo_id}} del AtoN
@@ -14,10 +14,19 @@
                 <div class="card-body pb-2">
                     {{>preventivoDisabled}}
                 </div>
-                <a class="btn btn-warning m-2"
-                    onclick="document.getElementById('myModalBorradoPreventivo').style.display = 'block';"> 🗑️ Borrar</a>
-                <a class="btn btn-secondary m-2" href="/mantenimientopreventivo/list"> ↩️ Volver</a>
+                <div class="text-center">
+                    <a class="btn btn-outline-secondary m-2" href="/mantenimientopreventivo/list"> ↩️ Volver</a>
+                </div>
             </div>
+        </div>
+        <div class="text-center">
+            <a class="btn btn-outline-warning btn-sm m-2 mt-4"
+                onclick='abreModalReabrirPrev({{preventivo.preventivo_id}},{{ preventivo.nif }})'> 🛟 Reabrir</a>
+        </div>
+        <hr>
+        <div class="text-center">
+            <a class="btn btn-outline-danger btn-sm m-2 mt-4"
+                onclick="document.getElementById('myModalBorradoPreventivo').style.display = 'block';"> 🗑️ Borrar</a>
         </div>
     </div>
     {{else}}
@@ -25,7 +34,7 @@
         <strong>Estás editando un preventivo en curso.</strong>
     </div>
     <div class="row">
-        <div class="col-md-8 mx-auto py-4">
+        <div class="col-lg-8 mx-auto py-4">
             <div class="card pb-4">
                 <div class="card-header text-center">
                     <h2> Edición del Preventivo <small class="text-muted">{{preventivo.preventivo_id}} del AtoN <a
@@ -39,17 +48,20 @@
                         <input type="hidden" name="preventivo_id" value="{{preventivo.preventivo_id}}" />
                         <label for="fecha">Fecha Revisión</label> <input type="date" name="fecha"
                             value="{{formatearEn preventivo.fecha}}" required />
-                   
+
                         {{>preventivoEdit}}
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" type="submit" name="accion" value="Guardar">💾 Guardar
                                 cambios</button>
-                            <button class="btn btn-warning" type="submit" name="accion" value="Cerrar">✅ Cerrar
+                            <button
+                                onclick="document.getElementById('myModalCerrarPreventivo').style.display = 'block';"
+                                class="btn btn-warning">✅ Cerrar
                                 Preventivo</button>
                         </div>
                         <div class="text-center mt-3">
-                            <a class="btn btn-secondary" href="/mantenimientopreventivo/list">↩️ Cancelar</a>
+                            <a class="btn btn-outline-secondary" href="/mantenimientopreventivo/list">↩️ Cancelar</a>
                         </div>
+                        {{>ModalCerrarPreventivo}}
                     </form>
                 </div>
             </div>
@@ -58,5 +70,5 @@
     {{/if}}
 </div>
 
-
+{{>ModalReabrirPreventivo}}
 {{>ModalBorradoPreventivo}}

@@ -1,0 +1,225 @@
+<div class="header">
+    <div style="font-size:25px;">MANT PREVENTIVO</div>
+    <div>
+        AtoN revisado: <strong>{{preventivo.nif}}</strong><br>
+        Técnico que revisa: <strong>{{preventivo.solved_by}}</strong>
+    </div>
+    <div>
+        Fecha revisión:<strong>{{formatearSp preventivo.fecha}}</strong><br>
+        Informe completado: <strong>{{formatearSp preventivo.solved_at}}</strong>
+    </div>
+    {{#if preventivo.totalSeleccionadas}}
+    <div>
+        <strong>{{preventivo.indice}} / {{preventivo.totalSeleccionadas}} </strong>
+    </div>
+    {{/if}}
+</div>
+
+<hr>
+
+<!-- ============================
+     ESTRUCTURA
+============================ -->
+
+<div class="section">
+    <div class="section-title">1. ESTRUCTURA</div>
+    <table class="table">
+        <tr>
+            <td>Estado general</td>
+            <td>{{{estadoBadge preventivo.estructura_estado}}}</td>
+
+            <td>Marca de Tope</td>
+            <td>{{{estadoBadge preventivo.estructura_marca_tope}}}</td>
+
+            <td>Engrase</td>
+            <td>{{{estadoBadge preventivo.estructura_engrase}}}</td>
+        </tr>
+        <tr>
+            <td>Golpes</td>
+            <td>{{{estadoBadge preventivo.estructura_golpes}}}</td>
+
+            <td>Flotador</td>
+            <td>{{{estadoBadge preventivo.estructura_flotador}}}</td>
+
+            <td>Limpieza Interior</td>
+            <td>{{{estadoBadge preventivo.estructura_limpieza_interior}}}</td>
+        </tr>
+        <tr>
+            <td>Limpieza Exterior</td>
+            <td>{{{estadoBadge preventivo.estructura_limpieza_exterior}}}</td>
+
+            <td>Cuadro Eléctrico Interior</td>
+            <td>{{{estadoBadge preventivo.estructura_cuadro_interior}}}</td>
+
+            <td>Cuadro Eléctrico Exterior</td>
+            <td>{{{estadoBadge preventivo.estructura_cuadro_exterior}}}</td>
+        </tr>
+    </table>
+
+    {{#if preventivo.estructura_observaciones}}
+    <div class="observaciones">
+        Observaciones:<strong>{{preventivo.estructura_observaciones}}</strong>
+    </div>
+    {{/if}}
+
+</div>
+
+<!-- ============================
+     LINTERNA
+============================ -->
+
+<div class="section">
+    <div class="section-title">2. LINTERNA</div>
+
+    <table class="table">
+        <tr>
+            <td>LDR1</td>
+            <td>{{{estadoBadge preventivo.linterna_ldr1}}}</td>
+            <td>LDR2</td>
+            <td>{{{estadoBadge preventivo.linterna_ldr2}}}</td>
+            <td>Óptica</td>
+            <td>{{{estadoBadge preventivo.linterna_optica}}}</td>
+        </tr>
+        <tr>
+            <td>Estanqueidad Tornillos</td>
+            <td>{{{estadoBadge preventivo.linterna_estanqueidad_tornillos}}}</td>
+            <td>Estanqueidad Humedades</td>
+            <td>{{{estadoBadge preventivo.linterna_estanqueidad_humedades}}}</td>
+        </tr>
+    </table>
+
+    {{#if preventivo.linterna_observaciones}}
+    <div class="observaciones">
+        Observaciones:<strong> {{preventivo.linterna_observaciones}}</strong>
+    </div>
+    {{/if}}
+</div>
+
+<!-- ============================
+     TELECONTROL
+============================ -->
+
+<div class="section">
+    <div class="section-title">3. TELECONTROL</div>
+    <table class="table">
+        <tr>
+            <td>Monitoreo</td>
+            <td>{{{estadoBadge preventivo.telecontrol_monitoreo}}}</td>
+            <td>GPS</td>
+            <td>{{{estadoBadge preventivo.telecontrol_gps}}}</td>
+        </tr>
+    </table>
+
+    {{#if preventivo.telecontrol_observaciones}}
+    <div class="observaciones">
+        Observaciones:<strong> {{preventivo.telecontrol_observaciones}}</strong>
+    </div>
+    {{/if}}
+
+
+</div>
+
+<!-- ============================
+     ALIMENTACIÓN
+============================ -->
+
+<div class="section">
+    <div class="section-title">4. ALIMENTACIÓN</div>
+    <table class="table">
+        <tr>
+            <td>Panel Fotovoltaico</td>
+            <td>{{{estadoBadge preventivo.alimentacion_panelFV}}}</td>
+            <td>Red</td>
+            <td>{{{estadoBadge preventivo.alimentacion_red}}}</td>
+            <td>Capacidad</td>
+            <td>{{preventivo.alimentacion_ah}} Ah</td>
+        </tr>
+        <tr>
+            <td>Voltaje</td>
+            <td>{{preventivo.alimentacion_vcc}} V</td>
+            <td>Baterías</td>
+            <td>{{{estadoBadge preventivo.alimentacion_baterias}}}</td>
+            <td>Grupo Electrógeno</td>
+            <td>{{{estadoBadge preventivo.alimentacion_grupo}}}</td>
+        </tr>
+        <tr>
+            <td>Estado Cableado</td>
+            <td>{{{estadoBadge preventivo.alimentacion_cableado}}}</td>
+        </tr>
+    </table>
+
+    {{#if preventivo.alimentacion_observaciones}}
+    <div class="observaciones">
+        Observaciones: <strong>{{preventivo.alimentacion_observaciones}}</strong>
+    </div>
+    {{/if}}
+</div>
+
+<!-- ============================
+     OBSERVACIONES GENERALES
+============================ -->
+
+<div class="section">
+    <div class="section-title">5. OTROS COMENTARIOS</div>
+    <div class="observaciones">
+        {{preventivo.observaciones_generales}}
+    </div>
+
+</div>
+<hr>
+<!-- ============================
+     FOTOS 
+============================ -->
+{{#if preventivo.tieneFotos}}
+<div class="header page-break">
+    <div style="font-size:25px;  ">MANT PREVENTIVO</div>
+    <div>
+        AtoN revisado: <strong>{{preventivo.nif}}</strong><br>
+        Técnico que revisa: <strong>{{preventivo.solved_by}}</strong>
+    </div>
+    <div>
+        Fecha revisión:<strong>{{formatearSp preventivo.fecha}}</strong><br>
+        Informe completado: <strong>{{formatearSp preventivo.solved_at}}</strong>
+    </div>
+    {{#if preventivo.totalSeleccionadas}}
+    <div>
+        <strong>{{preventivo.indice}} / {{preventivo.totalSeleccionadas}} </strong>
+    </div>
+    {{/if}}
+</div>
+<hr>
+<div class="photos-page">
+    {{#if preventivo.foto_estructura}}
+    <div class="image">
+        <img src="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_estructura}}"
+            alt="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_estructura}}">
+    </div>
+    {{/if}}
+    {{#if preventivo.foto_linterna}}
+    <div class="image">
+        <img src="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_linterna}}"
+            alt="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_linterna}}">
+    </div>
+    {{/if}}
+    {{#if preventivo.foto_monitoreo}}
+    <div class="image">
+        <img src="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_monitoreo}}"
+            alt="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_monitoreo}}">
+    </div>
+    {{/if}}
+    {{#if preventivo.foto_alimentacion}}
+    <div class="image">
+        <img src="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_alimentacion}}"
+            alt="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_alimentacion}}">
+    </div>
+    {{/if}}
+    {{#if preventivo.foto_general}}
+    <div class="image">
+        <img src="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_general}}"
+            alt="{{baseURL}}/img/preventivos/{{preventivo.nif}}/{{preventivo.foto_general}}">
+    </div>
+    {{/if}}
+</div>
+<hr>
+{{/if}}
+{{!-- <div class="page-break"></div> --}}

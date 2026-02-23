@@ -19,7 +19,12 @@ router.get('/plan', (req, res) => {
 });
 
 //GESTION LOGS
-router.get("/logs", funciones.isAuthenticated, funciones.isAdmin, async (req, res) => {
+router.get("/logs", funciones.isAuthenticated, async (req, res) => {
+    var logs = await db.query("select * from logs WHERE fecha >= DATE_SUB(CURDATE(), INTERVAL 100 DAY) ORDER BY fecha DESC");
+    res.render("documentos/listadoLogs", { logs });
+});
+
+router.get("/logsAll", funciones.isAuthenticated, funciones.isAdmin, async (req, res) => {
     var logs = await db.query("select * from logs order by fecha desc");
     res.render("documentos/listadoLogs", { logs });
 });
@@ -62,5 +67,10 @@ router.post("/pruebaPost", funciones.isAdmin, async (req, res) => {
     }
 
 });
+
+router.get('/errortest', (req, res) => {
+  throw new Error('Error de prueba');
+});
+
 
 export default router;

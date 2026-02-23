@@ -8,18 +8,36 @@
     </div>
     <div class="row mb-2">
         <div class="col-md-11 col-xl-11 mx-auto">
-            <h3>TICKETS
-                {{#if ticketsAbiertos}}
-                ABIERTOS
-                {{/if}}
-                {{#if ticketsCerrados}}
-                CERRADOS
-                {{/if}}
-            </h3>
-            <div class="my-2">
-                <input class="form-control" id="myInput" type="text" placeholder="Filtrar por..." autofocus>
-            </div>
+            <h3>TICKETS {{#if ticketsAbiertos}} ABIERTOS {{/if}} {{#if ticketsCerrados}} CERRADOS {{/if}} </h3>
             <div class="table-responsive">
+                <div class="container-fluid my-3">
+                    <div class="row align-items-end g-2">
+                        <!-- Botón para mostrar solo resueltos -->
+                        <div class="col-2">
+                            <label for="filtroEstado" class="form-label fw-semibold text-light">Estado:</label>
+                            <select id="filtroEstado" class="form-select form-select-sm">
+                                <option value="">Todos</option>
+                                <option value="pendiente">Activos</option>
+                                <option value="resuelto">Cerrados</option>
+                            </select>
+                        </div>
+                        <!-- Selector de usuario -->
+                        <div class="col-3">
+                            <label for="filtroCreador" class="form-label fw-semibold text-light">Asignados a:</label>
+                            <select id="filtroCreador" class="form-select form-select-sm">
+                                <option value="">Todos los usuarios</option>
+                                {{#each usuarios}}
+                                <option value="{{this.usuario}}">{{this.usuario}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <!-- Campo de búsqueda -->
+                        <div class="col-4">
+                            <label for="myInput" class="form-label fw-semibold text-light">Buscar:</label>
+                            <input class="form-control" id="myInput" type="text" placeholder="Filtrar por..." autofocus>
+                        </div>
+                    </div>
+                </div>
                 {{#if tickets}}
                 <table data-search="true" id="listado" class="table table-sm table-dark rounded table-hover listado"
                     style="white-space: nowrap; overflow-x: auto;">
@@ -34,7 +52,8 @@
                     </tr>
 
                     {{#each tickets}}
-                    <tr class="fila">
+                    <tr class="fila {{#if this.solved_at}}resuelto{{else}}pendiente{{/if}}"
+                        data-assigned_to="{{this.assigned_to}}">
                         <td> <a href="/aton/plantilla/{{ this.nif }} ">{{ this.nif }}</a> </td>
                         <td>{{ this.titulo }} </td>
                         <td class="d-none d-xl-table-cell">{{ this.descripcion }} </td>
@@ -68,3 +87,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    const inputBusqueda = document.getElementById("myInput");
+    const selectCreador = document.getElementById("filtroCreador");
+    const selectEstado = document.getElementById("filtroEstado");
+    const filas = document.querySelectorAll(".fila");
+
+    function aplicarFiltros() {
+        const texto = inputBusqueda.value.toLowerCase().trim();
+        const creadorSeleccionado = selectCreador.value;
+        const estadoSeleccionado = selectEstado.value;
+
+        filas.forEach(fila => {
+            const creador = fila.dataset.assigned_to;
+            const esResuelto = fila.classList.contains("resuelto");
+            const estado = esResuelto ? "resuelto" : "pendiente";
+
+            const textoFila = fila.innerText.toLowerCase();
+
+            const cumpleTexto = !texto || textoFila.includes(texto);
+            const cumpleCreador = !creadorSeleccionado || creador === creadorSeleccionado;
+            const cumpleEstado = !estadoSeleccionado || estado === estadoSeleccionado;
+
+            fila.style.display = (cumpleTexto && cumpleCreador && cumpleEstado)
+                ? ""
+                : "none";
+        });
+    }
+
+    // Debounce para no ejecutar en cada tecla instantáneamente
+    function debounce(func, delay = 300) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    inputBusqueda.addEventListener("keyup", debounce(aplicarFiltros));
+    selectCreador.addEventListener("change", aplicarFiltros);
+    selectEstado.addEventListener("change", aplicarFiltros);
+</script>

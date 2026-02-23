@@ -14,6 +14,9 @@
                 </a>
                 <div class="card-body">
                     <p class="fw-bold mb-2 text-truncate">{{this.descripcion}}</p>
+                    {{#if this.created_at}}
+                    <p>Subida el {{formatearSp this.created_at}}</p>
+                    {{/if}}
                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                         <a href="/aton/fotos/{{../nif}}/{{this.nombre}}" class="btn btn-primary me-2">
                             Ver Foto

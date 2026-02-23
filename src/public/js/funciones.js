@@ -46,6 +46,15 @@ function abreModalPrev(id,nif) {
     item.style.display = 'block';
 }
 
+function abreModalReabrirPrev(id,nif) {
+    //console.log("Mantenimiento con id" + id);
+    var item = document.getElementById("myModalReabrirPreventivo"); 
+    var ref = document.getElementById("refprevreabrir");
+    document.getElementById("reabrirpreventivoidmodal").innerHTML=id;
+    document.getElementById("reabrirpreventivonifmodal").innerHTML=nif;
+    console.log(item);
+    item.style.display = 'block';
+}
 function abreModalFoto(nif,nombre) {
     //console.log("observacion con id" + id);
     var item = document.getElementById("myModalBorradoFoto");
@@ -122,82 +131,59 @@ async function fetchData() {
 
 //FUNCION PARA TRADUCIR COORDENADAS. DEVUELVE UN OBJETO GOOGLE FORMAT CON LAS COORDENADAS
 function setMarkerLatLng(lat, lng) {
-    //console.log(lat + " " + lng)
-    var lat2 = 0;
-    var lng2 = 0;
-    if (lat != null && lat.includes("º")) {
-        lat = lat.replaceAll("'", "´"); // y reemplazo la coma ' por ´
-        lat = lat.replaceAll("°", "º");
+    function parseCoord(coord, positiveDir, negativeDir) {
+        let result = 0;
+        coord = coord.replaceAll("'", "´").replaceAll("°", "º");
 
-        var utmarraylat = lat.split("º"); //separo grados y minutos
-        //console.log(utmarraylat[0] + " - " + utmarraylat[1]);
-        //(utmarraylat[0] son grados y  utmarraylat[1] minutos
-        utmarraylat[1] = utmarraylat[1].replace(",", "."); //DE LOS MINUTOS sustituyo comas por PUNTOS
-        var minutoslatVector = utmarraylat[1].split("."); //de los minutos separo en las PUNTOS
-        //console.log(minutoslatVector[0] + " - " + minutoslatVector[1]);
+        if (coord == null || !coord.includes("º")) return coord;
 
-        if (minutoslatVector.length > 1) {
-            var minutoslatEntero = parseFloat(minutoslatVector[0]); //convierto a decimal (la separacion ha de ser un PUNTO)
+        let parts = coord.split("º");
 
-            if (minutoslatVector[1].includes("´")) {
-                var minutoslat = minutoslatVector[1].split("´")
+        if (parts.length < 2) return result;
+
+        let degrees = parseFloat(parts[0].trim());
+        let minutesPart = parts[1].replace(",", ".").trim();
+
+        let minutesVector = minutesPart.split(".");
+
+        if (minutesVector.length > 1) {
+            let minInt = parseFloat(minutesVector[0]);
+            let remaining = minutesVector[1] || "";
+
+            let direction = '';
+            let minDecimal = 0;
+
+            if (remaining.includes("´")) {
+                [minDecimal, direction] = remaining.split("´");
             } else {
-                var minutoslat = minutoslatVector[1].split(" ")
+                [minDecimal, direction] = remaining.split(" ");
             }
-            //console.log(minutoslat[0] + " - " + minutoslat[1]);
-            var minutoslatDecimal = parseFloat(minutoslat[0]);
-            lat2 = parseFloat(utmarraylat[0]) + (minutoslatEntero + minutoslatDecimal / 1000) / 60;
+
+            minDecimal = parseFloat(minDecimal || 0);
+            direction = (direction || "").trim();
+
+            result = degrees + (minInt + minDecimal / 1000) / 60;
+
+            if (direction === negativeDir) result *= -1;
         } else {
-            var minutoslat = minutoslatVector[0].trim().split(" ");
-            lat2 = parseFloat(utmarraylat[0]) + parseFloat(minutoslat[0]) / 60;
-        }
-        //console.log(minutoslatVector);
-        if (minutoslat[1].trim() == 'N')
-            lat2 = 1 * lat2.toFixed(6);
-        else if (minutoslat[1].trim() == 'S')
-            lat2 = -1 * lat2.toFixed(6);
-        //console.log(lat2);
-    }
+            let [minOnly, direction] = minutesVector[0].trim().split(" ");
+            let minutes = parseFloat(minOnly || 0);
+            direction = (direction || "").trim();
 
-    if (lng != null && lng.includes("º")) {
-        lng = lng.replaceAll("'", "´");
-        lng = lng.replaceAll("°", "º");
-        var utmarraylng = lng.split("º"); //separo grados y minutos
-        //console.log(utmarraylng[0] + " - " + utmarraylng[1]);
-        //(utmarraylng[0] son grados y  utmarraylng[1] minutos
-        utmarraylng[1] = utmarraylng[1].replace(",", "."); //DE LOS MINUTOS sustituyo comas por PUNTOS
-        var minutoslngVector = utmarraylng[1].split("."); //de los minutos separo en las PUNTOS
-        //console.log(minutoslngVector[0] + " - " + minutoslngVector[1]);
+            result = degrees + minutes / 60;
 
-        if (minutoslngVector.length > 1) {
-
-            var minutoslngEntero = parseFloat(minutoslngVector[0]); //convierto a decimal (la separacion ha de ser un PUNTO)
-
-            if (minutoslngVector[1].includes("´")) {
-                var minutoslng = minutoslngVector[1].split("´")
-            } else {
-                var minutoslng = minutoslngVector[1].split(" ")
-            }
-            //console.log(minutoslng[0] + " - " + minutoslng[1]);
-            var minutoslngDecimal = parseFloat(minutoslng[0]);
-            lng2 = parseFloat(utmarraylng[0]) + (minutoslngEntero + minutoslngDecimal / 1000) / 60;
-        } else {
-            var minutoslng = minutoslngVector[0].trim().split(" ");
-            lng2 = parseFloat(utmarraylng[0]) + parseFloat(minutoslng[0]) / 60;
+            if (direction === negativeDir) result *= -1;
         }
 
-
-        if (minutoslng[1].trim() == 'E')
-            lng2 = 1 * lng2.toFixed(6);
-        else if (minutoslng[1].trim() == 'W')
-            lng2 = -1 * lng2.toFixed(6);
-        //console.log(lng2);
+        return parseFloat(result.toFixed(6));
     }
+
     return {
-        'lat': lat2,
-        'lng': lng2
+        lat: parseCoord(lat, "N", "S"),
+        lng: parseCoord(lng, "E", "W")
     };
 }
+
 //FUNCION PARA TRADUCIR COORDENADAS DE UN OBJETO GOOGLE FORMAT PASA A COORDENADAS WEB.
 function getMarkerLatLng({ lat, lng }) {
     //console.log(lat + " " + lng)
@@ -354,8 +340,6 @@ function defineCambiosEstado() {
     let caracteristicaMod;
     let repeticiones;
     let caracteristica = document.getElementById("caracteristicaID").innerText;
-    if (caracteristica === null)
-        caracteristica = "L0.5 oc1.5 L0.5 oc4.5";
     caracteristica = caracteristica.toLowerCase();
     caracteristica = caracteristica.replace(/\ |\(|\[|\[|\)|\]\+/g, '').replace(/,/g, '.').replace(/oc/g, "l").replace(/o/g, "l");
     //console.log(caracteristica);

@@ -1,28 +1,30 @@
 <div class="container-fluid mb-5">
     <!-- id="cuerpo" -->
     <div class="row text-center my-2">
-        <div class="col-md-11 mx-auto">
-            <h1>MANTENIMIENTOS PREVENTIVOS <i class="fa fa-ticket" aria-hidden="true"></i></h1>
-            <div> <a class="btn btn-primary" href="/mantenimientopreventivo/add">Abrir Nuevo Preventivo</a></div>
+        <div class="col-lg-10 mx-auto">
+            <h1>MANTENIMIENTOS PREVENTIVOS <i class="fa fa-file-text" aria-hidden="true"></i></span></h1>
+            <div> <a class="btn btn-primary" href="/mantenimientopreventivo/add">+ Nuevo Preventivo</a></div>
         </div>
     </div>
     <div class="row mb-2">
-        <div class="col-md-11 col-xl-11 mx-auto">
+        <div class=" col-lg-11 mx-auto">
             <div class="table-responsive">
                 {{#if preventivos}}
-                <div class="container-fluid my-3">
+                <div class="card p-3 shadow-sm bg-dark mb-1 text-center">
                     <div class="row align-items-end g-2">
                         <!-- Botón para mostrar solo resueltos -->
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold text-light invisible">Filtro</label>
-                            <!-- invisible para alinear -->
-                            <button id="toggleResueltos" class="btn btn-outline-light btn-sm w-100">
-                                <i class="fa fa-check-circle me-1"></i>Mostrar solo cerrados
-                            </button>
+                        <div class="col-3">
+                            <label for="filtroEstado" class="form-label fw-semibold text-light">Estado:</label>
+                            <select id="filtroEstado" class="form-select form-select-sm">
+                                <option value="">Todos</option>
+                                <option value="pendiente">Activos</option>
+                                <option value="resuelto">Cerrados</option>
+                            </select>
                         </div>
 
+
                         <!-- Selector de usuario -->
-                        <div class="col-md-3">
+                        <div class="col-3">
                             <label for="filtroCreador" class="form-label fw-semibold text-light">Filtrar por
                                 usuario:</label>
                             <select id="filtroCreador" class="form-select form-select-sm">
@@ -32,18 +34,28 @@
                                 {{/each}}
                             </select>
                         </div>
+
                         <!-- Campo de búsqueda -->
-                        <div class="col-md-4">
+                        <div class="col-3">
                             <label for="myInput" class="form-label fw-semibold text-light">Buscar:</label>
                             <input class="form-control form-control-sm" id="myInput" type="text"
                                 placeholder="Filtrar por..." autofocus>
                         </div>
+
+                        <div class="col-3">
+                            <button id="btnPrintSeleccion" class="btn btn-success">
+                                Imprimir <span id="contadorFilas">0</span> filtrados
+                            </button>
+                        </div>
                     </div>
+
                 </div>
 
-                <table data-search="true" id="listado" class="table table-sm table-dark rounded table-hover listado"
+                <table data-search="true" id="listado"
+                    class="table table-sm table-dark rounded table-hover shadow-sm listado"
                     style="white-space: nowrap; overflow-x: auto;">
                     <tr class="info-color-dark">
+                        <th>#</th>
                         <th>NIF</th>
                         <th>Fecha</th>
                         <th class="d-none d-md-table-cell">Creado por</th>
@@ -55,27 +67,30 @@
                     {{#each preventivos}}
                     <tr class="fila {{#if this.solved_at}}resuelto{{else}}pendiente{{/if}}"
                         data-creador="{{this.created_by}}">
+                        <td>{{ this.preventivo_id }}</td>
                         <td> <a href="/aton/plantilla/{{ this.nif }} ">{{ this.nif }}</a> </td>
                         <td>{{formatearSp this.fecha}}</td>
                         <td class="d-none d-md-table-cell">{{ this.created_by }} </td>
                         {{!-- <td class="d-none d-md-table-cell">{{ timeagoSpCerrado this.created_at }} </td> --}}
 
                         {{#if this.solved_at}}
-                        <td class="d-none d-md-table-cell">cerrado {{ timeagoSpCerrado this.solved_at }} por
-                            {{this.solved_by}} </td>
+                        <td class="d-none d-md-table-cell">cerrado {{ timeagoSpCerrado this.solved_at }} <small>por
+                                {{this.solved_by}}</small> </td>
                         {{else}}
                         <td class="d-none d-md-table-cell">activo {{timeagoSp this.created_at }} </td>
                         {{/if}}
 
                         <td>
                             {{#if this.solved_at}}
-                            <a href="/mantenimientopreventivo/cerrado/{{this.preventivo_id}}" class="text-primary"><i
+                            <a href="/mantenimientopreventivo/cerrado/{{this.preventivo_id}}" class="text-info"><i
                                     class="fa fa-eye"></i>View</a>
+                            <a href="/mantenimientopreventivo/cerrado/{{this.preventivo_id}}/pdf"
+                                class="text-success"><i class="fa fa-print"></i>Print</a>
                             {{else}}
-                            <a href="/mantenimientopreventivo/edit/{{this.preventivo_id}}" class="text-primary"><i
+                            <a href="/mantenimientopreventivo/edit/{{this.preventivo_id}}" class="text-warning"><i
                                     class="fa fa-pencil"></i>Edit</a>
                             <a type="submit" onclick='abreModalPrev({{this.preventivo_id}},{{ this.nif }})'
-                                class=" text-primary"> <i class="fa fa-trash"></i>del</a>
+                                class=" text-danger"> <i class="fa fa-trash"></i>del</a>
                             {{/if}}
 
                         </td>
@@ -89,48 +104,141 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal Procesando PDF -->
+<div class="modal fade" id="modalProcesando" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content text-center">
+
+            <div class="modal-body py-4">
+
+                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+
+                <h6 class="fw-semibold">Generando PDF</h6>
+                <small class="text-muted">Por favor espere...</small>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script>
-    let mostrarSoloResueltos = false;
-
-    const btnToggle = document.getElementById("toggleResueltos");
+    const inputBusqueda = document.getElementById("myInput");
     const selectCreador = document.getElementById("filtroCreador");
+    const selectEstado = document.getElementById("filtroEstado");
+    const filas = document.querySelectorAll(".fila");
+    const botonImprimir = document.getElementById("btnPrintSeleccion");
 
-    // Función única para aplicar ambos filtros a la vez
     function aplicarFiltros() {
+        const texto = inputBusqueda.value.toLowerCase().trim();
         const creadorSeleccionado = selectCreador.value;
-        const filas = document.querySelectorAll(".fila");
+        const estadoSeleccionado = selectEstado.value;
 
         filas.forEach(fila => {
+            const creador = fila.dataset.creador;
             const esResuelto = fila.classList.contains("resuelto");
-            const esPendiente = fila.classList.contains("pendiente");
-            const creador = fila.getAttribute("data-creador");
+            const estado = esResuelto ? "resuelto" : "pendiente";
 
-            // Evaluar condiciones combinadas
-            const cumpleFiltroResuelto = !mostrarSoloResueltos || esPendiente;
-            const cumpleFiltroCreador = !creadorSeleccionado || creador === creadorSeleccionado;
+            const textoFila = fila.innerText.toLowerCase();
 
-            // Mostrar solo si cumple ambos filtros
-            if (cumpleFiltroResuelto && cumpleFiltroCreador) {
-                fila.style.display = "";
-            } else {
-                fila.style.display = "none";
+            const cumpleTexto = !texto || textoFila.includes(texto);
+            const cumpleCreador = !creadorSeleccionado || creador === creadorSeleccionado;
+            const cumpleEstado = !estadoSeleccionado || estado === estadoSeleccionado;
+
+            fila.style.display = (cumpleTexto && cumpleCreador && cumpleEstado)
+                ? ""
+                : "none";
+        });
+        actualizarContador();
+    }
+    //CONTADOR DE FILAS
+    function actualizarContador() {
+        let visibles = 0;
+
+        filas.forEach(fila => {
+            if (fila.style.display !== "none") {
+                visibles++;
+            }
+
+        });
+        if (visibles == 0)
+            botonImprimir.disabled = true;
+        else {
+            botonImprimir.disabled = false;
+        }
+        document.getElementById("contadorFilas").innerText = visibles;
+
+    }
+    actualizarContador();
+    // Debounce para no ejecutar en cada tecla instantáneamente
+    function debounce(func, delay = 300) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    inputBusqueda.addEventListener("keyup", debounce(aplicarFiltros));
+    selectCreador.addEventListener("change", aplicarFiltros);
+    selectEstado.addEventListener("change", aplicarFiltros);
+
+    //Para seleccionar los items a imprimir en pdf
+    botonImprimir.addEventListener("click", async () => {
+
+        const ids = [];
+
+        document.querySelectorAll(".fila").forEach(fila => {
+            if (fila.style.display !== "none") {
+                const id = fila.children[0].innerText.trim();
+                ids.push(id);
             }
         });
 
-        // Actualizar texto del botón
-        btnToggle.innerHTML = mostrarSoloResueltos
-            ? '<i class="fa fa-eye"></i> todos'
-            : '<i class="fa fa-eye"></i> por cerrar';
-    }
+        if (!ids.length) {
+            alert("No hay elementos seleccionados");
+            return;
+        }
 
-    // Evento del botón de toggle
-    btnToggle.addEventListener("click", function () {
-        mostrarSoloResueltos = !mostrarSoloResueltos;
-        aplicarFiltros();
+        const modalElement = document.getElementById("modalProcesando");
+        const modal = new bootstrap.Modal(modalElement);
+
+        modal.show();
+
+        try {
+
+            const response = await fetch(
+                `/mantenimientopreventivo/print-multiple?ids=${ids.join(",")}`
+            );
+
+            if (!response.ok) {
+                throw new Error("Error generando PDF");
+            }
+
+            const blob = await response.blob();
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "preventivos-multiple.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            alert("Error al generar el PDF");
+            console.error(error);
+        } finally {
+            modal.hide();
+        }
     });
 
-    // Evento del select de creador
-    selectCreador.addEventListener("change", aplicarFiltros);
 </script>
 
 

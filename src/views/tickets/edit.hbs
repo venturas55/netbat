@@ -1,7 +1,7 @@
 <div class="container p-2 mb-4">
     {{#if ticket.solved_at}}
     <div class="row">
-        <div class="col-md-8 mx-auto py-4">
+        <div class="col-lg-8 mx-auto py-4">
             <div class="card pb-4 ">
                 <div class="card-header text-center">
                     <h2> Información del Ticket nº {{ticket.ticket_id}} </h2>
@@ -35,15 +35,19 @@
                     </div>
                 </div>
                 {{!-- {{#if ticket.resolved_by_id}} --}}
-                <a class="btn btn-warning m-2" href="/tickets/delete/{{ticket.ticket_id}}">Borrar</a>
+
                 <a class="btn btn-secondary m-2" onclick="history.back();">Volver</a>
                 {{!-- {{/if}} --}}
+            </div>
+            <hr>
+            <div class="text-center">
+                <a class="btn btn-outline-danger btn-sm m-2 mt-4" href="/tickets/delete/{{ticket.ticket_id}}">🗑️ Borrar</a>
             </div>
         </div>
     </div>
     {{else}}
     <div class="row">
-        <div class="col-md-8 mx-auto pb-4">
+        <div class="col-lg-8 mx-auto pb-4">
             <div class="card pb-4 shadow-lg rounded-4">
                 <div class="card-header text-center  bg-primary text-white rounded-top-4">
                     <h2> Edición del Ticket nº {{ticket.ticket_id}} </h2>

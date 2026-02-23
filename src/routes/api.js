@@ -1,9 +1,13 @@
 import express from 'express';
 const router = express.Router();
+import fs from 'fs';
+import * as path from "path";
+import * as url from "url";
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 import db from "../database.js";
 import funciones from "../lib/funciones.js";
-const queryBaliza = "SELECT b.nif,lo.puerto,lo.num_local,b.telecontrol,b.periodo,b.tipo,b.apariencia,b.caracteristica,b.necesita_pintado,b.apagada,b.esBoya,lo.localizacion,lo.latitud,lo.longitud,la.altura,la.elevacion,la.linterna,la.alcanceNom,la.alcanceLum,la.candelasCalc,la.candelasInst FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif where b.nif=?";
-const queryListadoAton = "SELECT b.nif,b.num_internacional,b.tipo,b.apariencia,b.periodo,b.caracteristica,b.telecontrol,b.necesita_pintado,b.apagada,b.esBoya,lo.puerto,lo.num_local,lo.localizacion,lo.latitud,lo.longitud,la.altura,la.elevacion,la.alcanceNom,la.linterna,la.candelasCalc,la.alcanceLum,la.candelasInst FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif";
+const queryBaliza = "SELECT b.nif,lo.puerto,lo.num_local,b.telecontrol,b.periodo,b.tipo,b.apariencia,b.caracteristica,b.necesita_pintado,b.apagada,b.esBoya,lo.localizacion,lo.latitud,lo.longitud,lo.coordenadas,la.altura,la.elevacion,la.linterna,la.alcanceNom,la.alcanceLum,la.candelasCalc,la.candelasInst FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif where b.nif=?";
+const queryListadoAton = "SELECT b.nif,b.num_internacional,b.tipo,b.apariencia,b.periodo,b.caracteristica,b.telecontrol,b.necesita_pintado,b.apagada,b.esBoya,lo.puerto,lo.num_local,lo.localizacion,lo.latitud,lo.longitud,lo.coordenadas,la.altura,la.elevacion,la.alcanceNom,la.linterna,la.candelasCalc,la.alcanceLum,la.candelasInst FROM balizamiento b  LEFT JOIN localizacion lo ON lo.nif=b.nif  LEFT JOIN lampara la ON la.nif=b.nif";
 
 //Devuelve el listado de todas las balizas introducidas
 router.get('/api/balizas', async (req, res) => {
@@ -87,5 +91,24 @@ router.get('/api/autocompletar-nif', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
+
+router.get('/api/logs/errors', (req, res) => {
+  const logPath = path.join(__dirname, '../../logs/error.log');
+    console.log(logPath);
+  if (!fs.existsSync(logPath)) {
+    return res.json([]);
+  }
+
+  const logs = fs
+    .readFileSync(logPath, 'utf8')
+    .trim()
+    .split('\n')
+    .slice(-50) // últimos 50 errores
+    .map(line => JSON.parse(line));
+
+  res.json(logs);
+});
+
 
 export default router;

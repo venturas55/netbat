@@ -155,4 +155,11 @@ helpers.tiempo_activo = (fecha1, fecha2) => {
   else
     return `${horas} horas ${minutos} minutos`;
 };
+
+helpers.estadoBadge = (value) => {
+  if (value === "ok") return '<span class="estado-ok">OK</span>';
+  if (value === "ko") return '<span class="estado-ko">KO</span>';
+  return '<span class="estado-na">N/A</span>';
+};
+
 export default helpers;

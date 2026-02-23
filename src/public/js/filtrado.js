@@ -1,38 +1,37 @@
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const inputBusqueda = document.getElementById("myInput");
-    const suma = document.getElementById("suma");
+document.addEventListener('DOMContentLoaded', function () {
+  const inputBusqueda = document.getElementById("myInput");
+  const suma = document.getElementById("suma");
 
-    // Función para filtrar y contar filas
-    function filtrarYContar() {
-      const value = inputBusqueda.value.toLowerCase();
-      const filas = document.querySelectorAll(".listado .fila");
-      let visibleCount = 0;
+  // Función para filtrar y contar filas
+  function filtrarYContar() {
+    const value = inputBusqueda.value.toLowerCase();
+    const filas = document.querySelectorAll(".listado .fila");
+    let visibleCount = 0;
 
-      filas.forEach(fila => {
-        // Verificamos si la fila contiene el texto buscado
-        const coincide = fila.textContent.toLowerCase().includes(value);
-        
-        // Mostrar/ocultar según el texto y si está apagada
-        fila.style.display = coincide ? "" : "none";
+    filas.forEach(fila => {
+      // Verificamos si la fila contiene el texto buscado
+      const coincide = fila.textContent.toLowerCase().includes(value);
 
-        // Contamos las filas visibles
-        if (fila.style.display !== "none") {
-          visibleCount++;
-        }
-      });
+      // Mostrar/ocultar según el texto y si está apagada
+      fila.style.display = coincide ? "" : "none";
 
-      // Actualizamos el contador
-      if (suma) {
-        suma.textContent = visibleCount;
+      // Contamos las filas visibles
+      if (fila.style.display !== "none") {
+        visibleCount++;
       }
-    }
+    });
 
-    // Asociar la función al evento 'keyup' del input
-    if (inputBusqueda) {
-      inputBusqueda.addEventListener("keyup", filtrarYContar);
+    // Actualizamos el contador
+    if (suma) {
+      suma.textContent = visibleCount;
     }
+  }
 
-    // Ejecutamos la función de filtrado y conteo cuando la página cargue
+  // Asociar la función al evento 'keyup' del input
+  if (inputBusqueda) {
+    inputBusqueda.addEventListener("keyup", filtrarYContar);
+    // Ejecutamos la función de filtrado y conteo cuando la página cargue. Llamada dentro de etiquetas <script></script> en cada vista que lo necesite
     filtrarYContar();
-  });
+  }
+});
