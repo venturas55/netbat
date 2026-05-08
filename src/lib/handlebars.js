@@ -162,4 +162,8 @@ helpers.estadoBadge = (value) => {
   return '<span class="estado-na">N/A</span>';
 };
 
+helpers.eq = (a, b) =>{
+    return a === b;
+};
+
 export default helpers;

@@ -20,7 +20,8 @@ const {
   DB_HOST_NETCOM="localhost:3306",
   DB_USER_NETCOM="root",
   DB_PASS_NETCOM="Pablo-MsM",
-  DB_NAME_NETCOM="mesemar_beacons"
+  DB_NAME_NETCOM="mesemar_beacons",
+   OPCUA_IP=""
 
 } = process.env;
   //const DB_MP = process.env.DB_MP || '2a$10$.6weXYERL6XMB7nb0xcMTus/Qbi4aotItCWLs3QyBDk7cup4oCOo.';
@@ -61,4 +62,5 @@ export const config = {
   NODE_DOCKER_PORT,
   MYSQL_LOCAL_PORT,
   MYSQL_DOCKER_PORT,
+  OPCUA_IP
   };

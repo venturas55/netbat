@@ -1,0 +1,245 @@
+<style>
+    body {
+        background: #2a394d;
+    }
+ 
+
+    .card-metric {
+        border: none;
+        border-radius: 20px;
+        transition: 0.3s;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-metric:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .metric-icon {
+        font-size: 2.5rem;
+        opacity: 0.85;
+    }
+
+    .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .status-online {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .status-offline {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .header-panel {
+        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+        color: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 25px;
+    }
+
+    .alarm-active {
+        background: #dc3545;
+        color: white;
+    }
+
+    .alarm-ok {
+        background: #198754;
+        color: white;
+    }
+</style>
+
+
+<div class="container py-4">
+    <div class="header-panel">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="fw-bold">
+                    <i class="bi bi-broadcast-pin"></i>
+                    {{valores.estacion.nombre}}
+                </h1>
+                <p class="mb-1">
+                    <i class="bi bi-geo-alt"></i>
+                    {{valores.estacion.ubicacion}}
+                </p>
+                <p class="mb-0">
+                    Estado:
+                    <span
+                        class="{{#if (eq valores.estacion.estado 'ONLINE')}}status-online{{else}}status-offline{{/if}}">
+                        {{valores.estacion.estado}}
+                    </span>
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <h5>Última actualización</h5>
+                <div class="fs-5">
+                    {{valores.estacion.ultimaActualizacion}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MÉTRICAS -->
+    <div class="row g-4">
+        <!-- VIENTO -->
+        <div class="col-md-4">
+            <div class="card card-metric p-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Velocidad viento</h5>
+                        <div class="metric-value">
+                            {{valores.meteorologia.velocidad_viento}}
+                            <small>km/h</small>
+                        </div>
+                    </div>
+
+                    <div class="text-primary">
+                        <i class="bi bi-wind metric-icon"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- MEDIA -->
+        <div class="col-md-4">
+            <div class="card card-metric p-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Media viento</h5>
+                        <div class="metric-value">
+                            {{valores.meteorologia.media_viento}}
+                            <small>km/h</small>
+                        </div>
+                    </div>
+                    <div class="text-info">
+                        <i class="bi bi-graph-up metric-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- DIRECCIÓN -->
+        <div class="col-md-4">
+            <div class="card card-metric p-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Dirección viento</h5>
+                        <div class="metric-value">
+                            {{valores.meteorologia.direccion_viento}}°
+                        </div>
+                    </div>
+                    <div class="text-dark">
+                        <i class="bi bi-compass metric-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TEMPERATURA -->
+        <div class="col-md-4">
+            <div class="card card-metric p-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Temperatura</h5>
+                        <div class="metric-value">
+                            {{valores.meteorologia.temperatura}}°
+                        </div>
+                    </div>
+                    <div class="text-danger">
+                        <i class="bi bi-thermometer-half metric-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- HUMEDAD -->
+        <div class="col-md-4">
+            <div class="card card-metric p-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Humedad</h5>
+                        <div class="metric-value">
+                            {{valores.meteorologia.humedad}}%
+                        </div>
+                    </div>
+                    <div class="text-primary">
+                        <i class="bi bi-droplet metric-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PRESIÓN -->
+        <div class="col-md-4">
+            <div class="card card-metric p-4">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Presión</h5>
+                        <div class="metric-value">
+                            {{valores.meteorologia.presion}}
+                            <small>hPa</small>
+                        </div>
+                    </div>
+                    <div class="text-secondary">
+                        <i class="bi bi-speedometer2 metric-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ALARMAS -->
+    <div class="mt-5">
+        <h3 class="mb-4">
+            <i class="bi bi-exclamation-triangle"></i>
+            Estado de alarmas
+        </h3>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card p-3 {{#if valores.alarmas.viento_fuerte}}alarm-active{{else}}alarm-ok{{/if}}">
+                    <h5>Viento fuerte</h5>
+                    <div>
+                        {{#if valores.alarmas.viento_fuerte}}
+                        ACTIVA
+                        {{else}}
+                        NORMAL
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 {{#if valores.alarmas.lluvia_intensa}}alarm-active{{else}}alarm-ok{{/if}}">
+                    <h5>Lluvia intensa</h5>
+                    <div>
+                        {{#if valores.alarmas.lluvia_intensa}}
+                        ACTIVA
+                        {{else}}
+                        NORMAL
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 {{#if valores.alarmas.comunicaciones}}alarm-active{{else}}alarm-ok{{/if}}">
+                    <h5>Comunicaciones</h5>
+                    <div>
+                        {{#if valores.alarmas.comunicaciones}}
+                        ERROR
+                        {{else}}
+                        OK
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // Auto refresh cada 30 segundos
+    setTimeout(() => {
+        location.reload();
+    }, 30000);
+
+</script>

@@ -2,13 +2,14 @@ import {
     OPCUAClient,
     AttributeIds
 } from "node-opcua";
-
+import { config }  from '../config.js'; //traigo el database desde el archivo
 import { opcuaVariables } from "./opcuaconfig.js";
 
 export async function opcua() {
-
-    const endpointUrl = "opc.tcp://10.100.20.230:4840";
-
+    console.log("en opcua");
+    const endpointUrl = `opc.tcp://${config.OPCUA_IP}:4840`;
+    console.log(endpointUrl);
+    
     const client = OPCUAClient.create({
         endpointMustExist: false
     });

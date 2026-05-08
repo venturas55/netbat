@@ -7,9 +7,47 @@ import { opcua } from "../lib/opcua.js";
 
 //MOSTRAR PAGINA INICIAL
 router.get('/', async (req, res) => {
-    const valor = await opcua();
-    console.log(valor);
     res.render('index');
+});
+
+router.get('/estacion', async (req, res) => {
+    const opc = await opcua();
+    //const opc = {};
+    try {
+        const valores = {
+            estacion: {
+                nombre: "Estación VR041",
+                ubicacion: "Puerto Exterior",
+                estado: "ONLINE",
+                ultimaActualizacion: new Date().toLocaleString()
+            },
+
+            meteorologia: {
+                velocidad_viento: opc.velocidad_viento || 0,
+                media_viento: opc.media_viento || 0,
+                direccion_viento: opc.direccion_viento || 0,
+                temperatura: 21.6,
+                humedad: 67,
+                presion: 1013,
+                lluvia: 0,
+                radiacion_solar: 523
+            },
+
+            alarmas: {
+                viento_fuerte: opc.velocidad_viento > 20,
+                lluvia_intensa: false,
+                comunicaciones: false
+            }
+        };
+
+        res.render('estaciones', { valores });
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).send(error.message);
+
+    }
 
 });
 
