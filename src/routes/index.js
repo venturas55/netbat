@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import db from "../database.js"; //db hace referencia a la BBDD
 import funciones from "../lib/funciones.js";
-import { opcua } from "./lib/opcua.js";
+import { opcua } from "../lib/opcua.js";
 
 
 //MOSTRAR PAGINA INICIAL
