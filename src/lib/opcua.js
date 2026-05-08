@@ -24,17 +24,29 @@ export async function opcua() {
         console.log("Sesión creada");
 
         // leer nodo
-        const dataValue = await session.read({
-            nodeId: "ns=1;s=EM_VR041_VEL_VIENTO_38M",
-            attributeId: AttributeIds.Value
-        });
-        console.log(JSON.stringify(dataValue, null, 2));
-        console.dir(dataValue, { depth: null });
-        const value = dataValue.value.value;
+        const nodesToRead = [
+            {
+                nodeId: "ns=1;s=EM_VR041_VEL_VIENTO_38M",
+                attributeId: AttributeIds.Value
+            },
+            {
+                nodeId: "ns=1;s=EM_VR041_DIR_VIENTO_38M",
+                attributeId: AttributeIds.Value
+            }
+        ];
 
-        console.log("Valor:", value);
+        const results = await session.read(nodesToRead);
 
-        return value;
+        const velocidad = results[0].value.value;
+        const direccion = results[1].value.value;
+
+        console.log("Velocidad:", velocidad);
+        console.log("Dirección:", direccion);
+
+        return {
+            velocidad,
+            direccion
+        };
 
     } catch (err) {
 
