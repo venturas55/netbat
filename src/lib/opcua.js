@@ -18,7 +18,6 @@ export async function opcua() {
         // conectar
         await client.connect(endpointUrl);
         console.log("Conectado");
-
         // crear sesión
         session = await client.createSession();
 
@@ -29,7 +28,8 @@ export async function opcua() {
             nodeId: "ns=1;s=EM_VR41_VEL_VIENTO_38M",
             attributeId: AttributeIds.Value
         });
-
+        console.log(JSON.stringify(dataValue, null, 2));
+        console.dir(dataValue, { depth: null });
         const value = dataValue.value.value;
 
         console.log("Valor:", value);
