@@ -2,10 +2,15 @@ import express from 'express';
 const router = express.Router();
 import db from "../database.js"; //db hace referencia a la BBDD
 import funciones from "../lib/funciones.js";
+import { opcua } from "./opcua.js";
+
 
 //MOSTRAR PAGINA INICIAL
 router.get('/', (req, res) => {
+    const valor = await opcua();
+    console.log(valor);
     res.render('index');
+
 });
 
 //MOSTRAR CALCULOS
@@ -39,7 +44,7 @@ router.get('/noperm', (req, res) => {
 
 //MOSTRAR PRUEBA
 router.get("/runSQLfile/:filename", funciones.isAdmin, (req, res) => {
-    let filename = req.params.filename+".sql";
+    let filename = req.params.filename + ".sql";
     console.log("Ejecutando prueba");
     try {
 
@@ -69,7 +74,7 @@ router.post("/pruebaPost", funciones.isAdmin, async (req, res) => {
 });
 
 router.get('/errortest', (req, res) => {
-  throw new Error('Error de prueba');
+    throw new Error('Error de prueba');
 });
 
 
