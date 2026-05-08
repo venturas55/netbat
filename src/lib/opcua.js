@@ -3,6 +3,8 @@ import {
     AttributeIds
 } from "node-opcua";
 
+import { opcuaVariables } from "./opcuaconfig.js";
+
 export async function opcua() {
 
     const endpointUrl = "opc.tcp://10.100.20.230:4840";
@@ -15,61 +17,31 @@ export async function opcua() {
 
     try {
 
-        // conectar
         await client.connect(endpointUrl);
-        console.log("Conectado");
-        // crear sesión
         session = await client.createSession();
 
-        console.log("Sesión creada");
-
-        // leer nodo
-        const nodesToRead = [
-            {
-                nodeId: "ns=1;s=EM_VR041_VEL_VIENTO_38M",
-                attributeId: AttributeIds.Value
-            },
-            {
-                nodeId: "ns=1;s=EM_VR041_DIR_VIENTO_38M",
-                attributeId: AttributeIds.Value
-            }
-        ];
+        // construimos lectura dinámica
+        const nodesToRead = opcuaVariables.map(v => ({
+            nodeId: v.nodeId,
+            attributeId: AttributeIds.Value
+        }));
 
         const results = await session.read(nodesToRead);
 
-        const velocidad = results[0].value.value;
-        const direccion = results[1].value.value;
+        // mapeamos resultados a objeto
+        const output = {};
 
-        console.log("Velocidad:", velocidad);
-        console.log("Dirección:", direccion);
+        opcuaVariables.forEach((v, i) => {
+            output[v.key] = results[i]?.value?.value ?? null;
+        });
 
-        return {
-            velocidad,
-            direccion
-        };
+        console.log("Datos OPC UA:", output);
 
-    } catch (err) {
-
-        console.error("Error OPCUA:", err);
-
-        throw err;
+        return output;
 
     } finally {
 
-        try {
-
-            if (session) {
-                await session.close();
-            }
-
-            await client.disconnect();
-
-            console.log("Desconectado");
-
-        } catch (e) {
-
-            console.error("Error cerrando conexión:", e);
-
-        }
+        if (session) await session.close();
+        await client.disconnect();
     }
 }
