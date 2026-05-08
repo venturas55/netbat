@@ -25,7 +25,7 @@ export async function opcua() {
 
         // leer nodo
         const dataValue = await session.read({
-            nodeId: "ns=1;s=EM_VR41_VEL_VIENTO_38M",
+            nodeId: "ns=1;s=EM_VR041_VEL_VIENTO_38M",
             attributeId: AttributeIds.Value
         });
         console.log(JSON.stringify(dataValue, null, 2));
