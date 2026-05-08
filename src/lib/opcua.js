@@ -7,9 +7,8 @@ import { opcuaVariables } from "./opcuaconfig.js";
 
 export async function opcua() {
     console.log("en opcua");
-    const endpointUrl = `opc.tcp://${config.OPCUA_IP}:4840`;
     console.log(endpointUrl);
-    
+
     const client = OPCUAClient.create({
         endpointMustExist: false
     });
@@ -17,10 +16,11 @@ export async function opcua() {
     let session;
 
     try {
-
+        console.log("creando cliente");
         await client.connect(endpointUrl);
+        console.log("creando sesion");
         session = await client.createSession();
-
+        console.log("creando lectura");
         // construimos lectura dinámica
         const nodesToRead = opcuaVariables.map(v => ({
             nodeId: v.nodeId,
