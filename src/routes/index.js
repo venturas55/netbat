@@ -6,7 +6,7 @@ import { opcua } from "./opcua.js";
 
 
 //MOSTRAR PAGINA INICIAL
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const valor = await opcua();
     console.log(valor);
     res.render('index');
