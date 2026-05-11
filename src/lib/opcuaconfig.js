@@ -1,3 +1,4 @@
+import 'dotenv/config'
 export const opcuaVariables = [
     {
         key: "velocidad_viento",
