@@ -3,7 +3,7 @@ const router = express.Router();
 import db from "../database.js"; //db hace referencia a la BBDD
 import funciones from "../lib/funciones.js";
 import { opcua } from "../lib/opcua.js";
-import { opcua } from "../lib/opcuatest.js";
+import { maintest } from "../lib/opcuatest.js";
 
 
 //MOSTRAR PAGINA INICIAL
