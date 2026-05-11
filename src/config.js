@@ -21,7 +21,6 @@ const {
   DB_USER_NETCOM="root",
   DB_PASS_NETCOM="Pablo-MsM",
   DB_NAME_NETCOM="mesemar_beacons",
-  OPCUA_IP="10"
 
 } = process.env;
   //const DB_MP = process.env.DB_MP || '2a$10$.6weXYERL6XMB7nb0xcMTus/Qbi4aotItCWLs3QyBDk7cup4oCOo.';
