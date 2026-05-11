@@ -3,7 +3,7 @@ import {
     AttributeIds
 } from "node-opcua";
 import { config }  from '../config.js'; //traigo el database desde el archivo
-import { opcuaVariables } from "./opcuaconfig.js";
+import { opcuaVariables,OPCUA_IP } from "./opcuaconfig.js";
 
 export async function opcua() {
     const endpointUrl = `opc.tcp://${config.OPCUA_IP}:4840`;
