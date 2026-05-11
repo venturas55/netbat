@@ -61,5 +61,4 @@ export const config = {
   NODE_DOCKER_PORT,
   MYSQL_LOCAL_PORT,
   MYSQL_DOCKER_PORT,
-  OPCUA_IP
   };
