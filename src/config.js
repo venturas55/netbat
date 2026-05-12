@@ -46,16 +46,17 @@ const database_NETCOM = {
 //masterPass: '2a$10$.6weXYERL6XMB7nb0xcMTus/Qbi4aotItCWLs3QyBDk7cup4oCOo.',
 
 const database_VPS = {
-  host: DB_HOST_NETCOM,
-  user: DB_USER_NETCOM,
-  password: DB_PASS_NETCOM,
-  database: DB_NAME_NETCOM,
+  host: DB_HOST_VPS,
+  user: DB_USER_VPS,
+  password: DB_PASS_VPS,
+  database: DB_NAME_VPS,
 };
 
 
 export const config = {
   database,
   database_NETCOM,
+  database_VPS,
   PORT,
   DB_HOST,
   DB_USER,
