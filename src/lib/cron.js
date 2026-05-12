@@ -25,14 +25,14 @@ async function insertarDatos(estacion, data) {
 }
 
 function iniciarCron() {
-    schedule('*/5 * * * *', async () => {
+    schedule('*/1 * * * *', async () => {
         try {
             const estaciones = await db.query('SELECT * FROM estaciones');
 
             await Promise.all(
                 estaciones.map(async (estacion) => {
-                    const valores = await getDatos(estacion);
-
+                    const valores = await opcua(estacion);
+                    console.log(valores);
                     await insertarDatos(estacion, valores);
                 })
             );

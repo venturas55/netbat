@@ -36,8 +36,6 @@ export async function opcua(estacion) {
             output[v.key] = results[i]?.value?.value ?? null;
         });
 
-        console.log("Datos OPC UA:", output);
-
         return output;
 
     } finally {
