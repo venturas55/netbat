@@ -7,7 +7,6 @@
   "engines": {
     "node": ">=20 <21"
   },
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --security-revert=CVE-2023-46809 src/index.js",
@@ -49,6 +48,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.9.4",
     "mysqldump": "^3.2.0",
+    "node-cron": "^4.2.1",
     "node-localstorage": "^3.0.5",
     "node-opcua": "^2.170.1",
     "nodemailer": "^6.9.13",
