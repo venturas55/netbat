@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
 router.get('/estacion', async (req, res) => {
     const test=await maintest();
-    const opc = await opcua();
+    const opc = await opcua('{ ip: "10.100.20.230" }');
     //const opc = {};
     try {
         const valores = {

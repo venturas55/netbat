@@ -4,7 +4,7 @@ import { opcua } from "./opcua.js";
 
 // OPC UA
 async function getDatos(estacion) {
-    return await opcua(estacion.ip);
+    return await opcua(estacion);
 }
 
 // INSERT
