@@ -1,23 +1,14 @@
 import { schedule } from 'node-cron';
-import db from "../database_vps.js"; //db hace referencia a la BBDD
+import db from "../database_vps.js";
 import { opcua } from "./opcua.js";
 
-
-function generarDatos() {
-    return {
-        id_estacion: 1,
-        velocidad_media_viento: (Math.random() * 40).toFixed(2),
-        direccion_viento: Math.floor(Math.random() * 360),
-        racha_viento: (Math.random() * 60).toFixed(2),
-        temperatura: (Math.random() * 35).toFixed(2),
-        presion: (1005 + Math.random() * 20).toFixed(2)
-    };
-}
-function getDatos(estacion) {
+// OPC UA
+async function getDatos(estacion) {
     return await opcua(estacion.ip);
 }
 
-function insertarDatos(estacion, data) {
+// INSERT
+async function insertarDatos(estacion, data) {
     await db.query(
         `INSERT INTO mediciones 
         (id_estacion, velocidad_media_viento, direccion_viento, racha_viento, temperatura, presion)
@@ -31,35 +22,25 @@ function insertarDatos(estacion, data) {
             data.presion
         ]
     );
-
 }
-
-
 
 function iniciarCron() {
     schedule('*/5 * * * *', async () => {
-        let conn;
-
         try {
-            const data = generarDatos();
+            const estaciones = await db.query('SELECT * FROM estaciones');
 
-            var estaciones = await db.query('select * from estaciones');
+            await Promise.all(
+                estaciones.map(async (estacion) => {
+                    const valores = await getDatos(estacion);
 
-            estaciones.forEach(estacion => {
-                const valores = getDatos(estacion);
-                insertarDatos(estacion, valores)
+                    await insertarDatos(estacion, valores);
+                })
+            );
 
-            });
-
-
-
-
-            console.log('[CRON] Insert realizado');
+            console.log('[CRON] Inserciones completadas');
 
         } catch (err) {
             console.error('[CRON] Error:', err);
-        } finally {
-            if (conn) conn.release();
         }
     });
 
