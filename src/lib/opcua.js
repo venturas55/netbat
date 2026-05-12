@@ -5,7 +5,7 @@ import {
 import { config }  from '../config.js'; //traigo el database desde el archivo
 import { opcuaVariables,OPCUA_IP } from "./opcuaconfig.js";
 
-export async function opcua() {
+export async function opcua(estacion) {
     const endpointUrl = `opc.tcp://${OPCUA_IP}:4840`;
     console.log(endpointUrl);
 

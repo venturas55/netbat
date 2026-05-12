@@ -316,3 +316,56 @@ MariaDB [mesemar_beacons]> desc mtu300_messages;
 | processed_on          | datetime            | YES  | MUL | NULL    |                |
 +-----------------------+---------------------+------+-----+---------+----------------+
 29 rows in set (0.001 sec)
+
+
+
+
+
+TABLAS PARA DDBB EN VPS:
+
+DROP TABLE IF EXISTS mediciones;
+DROP TABLE IF EXISTS estaciones;
+
+-- =========================================
+-- TABLA ESTACIONES
+-- =========================================
+CREATE TABLE estaciones (
+    id_estacion INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    ubicacion VARCHAR(255),
+    latitud DECIMAL(9,6),
+    longitud DECIMAL(9,6),
+    activa TINYINT(1) DEFAULT 1,
+    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id_estacion)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- =========================================
+-- TABLA MEDICIONES
+-- =========================================
+CREATE TABLE mediciones (
+    id_medicion BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    id_estacion INT UNSIGNED NOT NULL,
+
+    velocidad_media_viento DECIMAL(5,2),
+    direccion_viento SMALLINT UNSIGNED,
+    racha_viento DECIMAL(5,2),
+
+    temperatura DECIMAL(5,2),
+    presion DECIMAL(6,2),
+
+    fecha_consulta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id_medicion),
+
+    INDEX idx_estacion (id_estacion),
+
+    CONSTRAINT fk_estacion
+        FOREIGN KEY (id_estacion)
+        REFERENCES estaciones(id_estacion)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

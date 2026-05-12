@@ -21,6 +21,10 @@ const {
   DB_USER_NETCOM="root",
   DB_PASS_NETCOM="Pablo-MsM",
   DB_NAME_NETCOM="mesemar_beacons",
+  DB_HOST_VPS = "localhost",
+  DB_USER_VPS = "usuario",
+  DB_PASS_VPS = "contrasena",
+  DB_NAME_VPS = "dbname",
 
 } = process.env;
   //const DB_MP = process.env.DB_MP || '2a$10$.6weXYERL6XMB7nb0xcMTus/Qbi4aotItCWLs3QyBDk7cup4oCOo.';
@@ -39,7 +43,14 @@ const database_NETCOM = {
   password: DB_PASS_NETCOM,
   database: DB_NAME_NETCOM,
 };
-  //masterPass: '2a$10$.6weXYERL6XMB7nb0xcMTus/Qbi4aotItCWLs3QyBDk7cup4oCOo.',
+//masterPass: '2a$10$.6weXYERL6XMB7nb0xcMTus/Qbi4aotItCWLs3QyBDk7cup4oCOo.',
+
+const database_VPS = {
+  host: DB_HOST_NETCOM,
+  user: DB_USER_NETCOM,
+  password: DB_PASS_NETCOM,
+  database: DB_NAME_NETCOM,
+};
 
 
 export const config = {

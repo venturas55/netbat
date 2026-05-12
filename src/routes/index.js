@@ -41,7 +41,7 @@ router.get('/estacion', async (req, res) => {
                 comunicaciones: false
             }
         };
-
+        
         res.render('estaciones', { valores });
     } catch (error) {
 

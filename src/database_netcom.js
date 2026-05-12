@@ -17,7 +17,7 @@ pool_NETCOM.getConnection((err, connection) => {
             return 'ECONNREFUSED';
         }
         if (err.code === 'ER_ACCESS_DENIED_ERROR') {
-            console.error('ACCESO _NETCOM denegado\n'+ stringify( config.database));
+            console.error('ACCESO _NETCOM denegado\n'+ stringify( config.database_NETCOM));
         }
     } else if (connection) {
         connection.release(); //con esto empieza la conexion

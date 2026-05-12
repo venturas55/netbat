@@ -12,6 +12,7 @@ import "./lib/passport.js"; //para que se entere de la autentificacion que se ha
 import * as path from "path";
 import * as url from "url";
 import logger from "./lib/logger.js"
+import iniciarCron from './lib/cron.js';
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 //Inicializacion
@@ -34,25 +35,7 @@ app.engine(
 );
 app.set("view engine", ".hbs"); //Para utilizar el app.engine
 //Middleware
-app.use(
-  cors /* {
-    origin: (origin, callback) => {
-        const ACCEPTED_ORIGINS = [
-            "http://localhost:" + app.get('port'),
-            "http://san.adriandeharo.es:" + app.get('port'),
-            "https://localhost:" + app.get('port'),
-            "https://san.adriandeharo.es:" + app.get('port'),
-        ]
-        if (ACCEPTED_ORIGINS.includes(origin)) {
-            return callback(null, true);
-        }
-        if (!origin) {
-            return callback(null, true);
-        }
-        return callback(new Error("CORS no aceptado en la app"));
-    }
-} */()
-);
+app.use(cors ());
 app.use(
   session({
     secret: "mysesion",
@@ -140,6 +123,8 @@ app.use((err, req, res, next) => {
   });
 });
 
+// arrancas cron junto al servidor
+iniciarCron();
 
 //Arrancar servidor
 app.listen(app.get("port"), () => {
