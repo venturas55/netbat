@@ -10,8 +10,8 @@ async function insertarDatos(estacion, data) {
         VALUES (?, ?, ?, ?, ?, ?)`,
         [
             estacion.id_estacion,
-            data.velocidad,
-            data.direccion,
+            data.velocidad_viento,
+            data.direccion_viento,
             data.racha,
             data.temperatura,
             data.presion
