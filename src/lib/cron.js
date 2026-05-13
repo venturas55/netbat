@@ -25,7 +25,7 @@ async function insertarDatos(estacion, data) {
 }
 
 function iniciarCron() {
-    schedule('*/10 * * * *', async () => {
+    schedule('*/1 * * * *', async () => {
         try {
             const estaciones = await db.query('SELECT * FROM estaciones');
 
