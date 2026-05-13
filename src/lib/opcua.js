@@ -5,9 +5,17 @@ import {
 import { config }  from '../config.js'; //traigo el database desde el archivo
 import { opcuaVariables,OPCUA_IP } from "./opcuaconfig.js";
 
-export async function opcua(estacion) {
+export async function getOPCuaVariables(estacion) {
+
     const endpointUrl = `opc.tcp://${estacion.ip}:4840`;
-    console.log(endpointUrl);
+
+    const variables = opcuaVariables[estacion.codigo];
+
+    if (!variables) {
+        throw new Error(
+            `No hay configuración OPCUA para ${estacion.codigo}`
+        );
+    }
 
     const client = OPCUAClient.create({
         endpointMustExist: false
@@ -16,31 +24,37 @@ export async function opcua(estacion) {
     let session;
 
     try {
-        console.log("creando cliente");
+
         await client.connect(endpointUrl);
-        console.log("creando sesion");
+
         session = await client.createSession();
-        console.log("creando lectura");
-        // construimos lectura dinámica
-        const nodesToRead = opcuaVariables.map(v => ({
+
+        const nodesToRead = variables.map(v => ({
             nodeId: v.nodeId,
             attributeId: AttributeIds.Value
         }));
 
         const results = await session.read(nodesToRead);
 
-        // mapeamos resultados a objeto
         const output = {};
 
-        opcuaVariables.forEach((v, i) => {
-            output[v.key] = results[i]?.value?.value ?? null;
+        variables.forEach((v, i) => {
+
+            const result = results[i];
+
+            output[v.key] = result?.statusCode?.isGood()
+                ? result.value.value
+                : null;
         });
 
         return output;
 
     } finally {
 
-        if (session) await session.close();
+        if (session) {
+            await session.close();
+        }
+
         await client.disconnect();
     }
 }
