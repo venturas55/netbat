@@ -58,7 +58,7 @@ export const opcuaVariables = {
         {
             key: "radiacion",
             nodeId: "ns=1;s=EM_SR002_RAD_SOLAR"
-        } ,{
+        }, {
             key: "lluvia",
             nodeId: "ns=1;s=EM_SR002_LLUVIA"
         }
@@ -78,18 +78,22 @@ export const opcuaVariables = {
             nodeId: "ns=1;s=EM_GR005_TEMP"
         },
         {
+            key: "presion",
+            nodeId: "ns=1;s=EM_GR005_RAD_PRESION"
+        },
+        {
             key: "radiacion",
             nodeId: "ns=1;s=EM_GR005_RAD_PRESION"
         },
         {
             key: "humedad",
             nodeId: "ns=1;s=EM_GR005_HUMEDAD"
-        },  {
+        }, {
             key: "lluvia",
             nodeId: "ns=1;s=EM_GR005_LLUVIA"
         },
-   
-      
+
+
     ]
 };
 

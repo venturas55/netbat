@@ -23,36 +23,18 @@ function iniciarCron() {
     schedule('*/1 * * * *', async () => {
         try {
             const estaciones = await db.query('SELECT * FROM estaciones');
-
-            await Promise.all(
-    estaciones.map(async (estacion) => {
-
-        try {
-
-            console.log(
-                `Procesando ${estacion.codigo}`
+            await Promise.all(estaciones.map(async (estacion) => {
+                try {
+                    console.log(`Procesando ${estacion.codigo}`);
+                    const valores = await getOPCuaVariables(estacion);
+                    console.log(valores);
+                    await insertarDatos(estacion, valores);
+                    console.log(`${estacion.codigo} OK`);
+                } catch (err) {
+                    console.error(`Error en ${estacion.codigo}:`, err.message);
+                }
+            })
             );
-
-            const valores =
-                await getOPCuaVariables(estacion);
-
-            console.log(valores);
-
-            await insertarDatos(estacion, valores);
-
-            console.log(
-                `${estacion.codigo} OK`
-            );
-
-        } catch (err) {
-
-            console.error(
-                `Error en ${estacion.codigo}:`,
-                err.message
-            );
-        }
-    })
-);
 
             console.log('[CRON] Inserciones completadas');
 
