@@ -4,19 +4,20 @@ import { getOPCuaVariables } from "./opcua.js";
 
 // INSERT
 async function insertarDatos(estacion, data) {
-    await db.query(
-        `INSERT INTO mediciones 
-        (id_estacion, velocidad_media_viento, direccion_viento, racha_viento, temperatura, presion)
-        VALUES (?, ?, ?, ?, ?, ?)`,
-        [
-            estacion.id_estacion,
-            data.velocidad_viento,
-            data.direccion_viento,
-            data.racha,
-            data.temperatura,
-            data.presion
-        ]
-    );
+    if(data.velocidad_viento>=0)
+        await db.query(
+            `INSERT INTO mediciones 
+            (id_estacion, velocidad_media_viento, direccion_viento, racha_viento, temperatura, presion)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            [
+                estacion.id_estacion,
+                data.velocidad_viento,
+                data.direccion_viento,
+                data.racha,
+                data.temperatura,
+                data.presion
+            ]
+        );
 }
 
 function iniciarCron() {
