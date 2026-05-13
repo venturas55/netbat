@@ -31,6 +31,7 @@ function iniciarCron() {
 
             await Promise.all(
                 estaciones.map(async (estacion) => {
+                    console.log(estacion);
                     const valores = await opcua(estacion);
                     console.log(valores);
                     await insertarDatos(estacion, valores);
