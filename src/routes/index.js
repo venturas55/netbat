@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import db from "../database.js"; //db hace referencia a la BBDD
 import funciones from "../lib/funciones.js";
-import { opcua } from "../lib/opcua.js";
+import { getOPCuaVariables } from "../lib/opcua.js";
 import { maintest } from "../lib/opcuatest.js";
 
 
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
 router.get('/estacion', async (req, res) => {
     const test=await maintest();
-    const opc = await opcua('{ ip: "10.100.20.230" }');
+    const opc = await getOPCuaVariables('{ ip: "10.100.20.230" }');
     //const opc = {};
     try {
         const valores = {
